@@ -1,0 +1,18 @@
+"use client";
+import { QueryClient, QueryClientProvider } from "react-query";
+export default function PlayLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const queryClient = new QueryClient();
+  return (
+    <html lang="en">
+      <body>
+        <QueryClientProvider client={queryClient}>
+          {children}
+        </QueryClientProvider>
+      </body>
+    </html>
+  );
+}
