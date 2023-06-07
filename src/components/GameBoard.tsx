@@ -371,8 +371,8 @@ const GameBoard = ({
                     >
                       0.5 points
                     </span>{" "}
-                    to your score. You are allowed to do a small typo. It's not
-                    case sensitive.
+                    to your score. You are allowed to do a small typo. It&apos;s
+                    not case sensitive.
                   </p>
                 </motion.div>
               )}
