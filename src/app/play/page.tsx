@@ -13,6 +13,8 @@ const PlayPage: React.FC = () => {
     name: string;
     price: number;
   };
+  const [hintUsed, setHintUsed] = useState(false);
+  const [priceHintUsed, setPriceHintUsed] = useState(false);
   const [seed, setSeed] = useState<Skin[]>([]);
   const [score, setScore] = useState<number>(0);
   const [currentRound, setCurrentRound] = useState<number>(0);
@@ -67,6 +69,10 @@ const PlayPage: React.FC = () => {
                     className=" overflow-hidden text-white relative z-20 h-full w-full flex items-center justify-center "
                   >
                     <GameBoard
+                      hintUsed={hintUsed}
+                      setPriceHintUsed={setPriceHintUsed}
+                      setHintUsed={setHintUsed}
+                      priceHintUsed={priceHintUsed}
                       seed={seed}
                       score={score}
                       setScore={setScore}

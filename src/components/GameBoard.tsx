@@ -23,6 +23,10 @@ const GameBoard = ({
   item,
   score,
   setScore,
+  hintUsed,
+  setPriceHintUsed,
+  setHintUsed,
+  priceHintUsed,
 }: {
   seed: Skin[];
   index: number;
@@ -31,7 +35,17 @@ const GameBoard = ({
   item: Skin;
   score: number;
   setScore: React.Dispatch<React.SetStateAction<number>>;
+  hintUsed: boolean;
+  setPriceHintUsed: React.Dispatch<React.SetStateAction<boolean>>;
+  setHintUsed: React.Dispatch<React.SetStateAction<boolean>>;
+  priceHintUsed: boolean;
 }) => {
+  const [hint, setHint] = useState("");
+  const [priceHint, setPriceHint] = useState("");
+  const [isHoveredNameInfo, setIsHoveredNameInfo] = useState<boolean>(false);
+  const [isHoveredConditionInfo, setIsHoveredConditionInfo] =
+    useState<boolean>(false);
+  const [isHoveredPriceInfo, setIsHoveredPriceInfo] = useState<boolean>(false);
   const [isAnsweredName, setIsAnsweredName] = useState<string>("");
   const [isAnsweredCondition, setIsAnsweredCondition] = useState<string>("");
   const [isAnsweredPrice, setIsAnsweredPrice] = useState<string>("");
@@ -79,7 +93,7 @@ const GameBoard = ({
     const actualPrice = item.price;
     const userPrice = priceValue;
 
-    if (isNaN(userPrice)) {
+    if (priceValue <= 0) {
       setScore((prev) => prev);
     } else {
       const lowerBound = actualPrice - actualPrice * 0.3;
@@ -93,7 +107,18 @@ const GameBoard = ({
       }
     }
   };
+  const handleShowHint = () => {
+    const itemName = item.name.split("|")[1].trim().split("(")[0].trim();
 
+    const twoLetters = itemName.slice(0, 2);
+
+    setHint(twoLetters + "...");
+    setHintUsed(true);
+  };
+  const handleShowPriceHint = () => {
+    setPriceHint(item.price.toString().charAt(0));
+    setPriceHintUsed(true);
+  };
   return (
     <div className="rounded-2xl w-10/12 h-[90%] flex items-center gap-6 justify-center flex-col bg-[#0C1115]/70 backdrop-blur-sm">
       <div className="flex h-2/6  justify-center">
@@ -107,10 +132,46 @@ const GameBoard = ({
           height={1000}
         ></Image>
       </div>
-      <div className="flex gap-2 text-2xl items-center w-[550px]  justify-between">
+      <div className="flex gap-2 text-base md:text-2xl items-center w-full px-4 md:px-0 md:w-[550px]  justify-between">
         <h3 className="flex gap-1 items-center">
-          {item.name.split("|")[0].trim()}
-          <AiFillQuestionCircle className="w-6 h-6" />
+          <span className="hidden md:block">
+            {item.name.split("|")[0].trim()}
+          </span>
+          <div className="relative">
+            <AiFillQuestionCircle
+              onMouseOver={() => {
+                setIsHoveredNameInfo(true);
+              }}
+              onMouseLeave={() => {
+                setIsHoveredNameInfo(false);
+              }}
+              className="w-6 h-6"
+            />
+            <AnimatePresence>
+              {isHoveredNameInfo && (
+                <motion.div
+                  initial={{ opacity: 0, y: -20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.2 }}
+                  exit={{ y: -20, opacity: 0 }}
+                  className="absolute bottom-8 left-0 w-64 bg-gray-900 border-[1px] rounded-md"
+                >
+                  <p className="text-white text-sm  p-1">
+                    Correct guess adds{" "}
+                    <span
+                      className="font-semibold"
+                      style={{ color: "#" + item.rarity_color }}
+                    >
+                      1 point
+                    </span>{" "}
+                    to your score. Your guess has a slight margin of error
+                    (0.88) in the Jaro-Winkler distance. If the distance exceeds
+                    this threshold, it will be considered incorrect.
+                  </p>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
         </h3>
         <div className="flex gap-2 relative justify-end h-9 items-center">
           <AnimatePresence>
@@ -121,7 +182,7 @@ const GameBoard = ({
                 transition={{ duration: 0.6 }}
                 exit={{ opacity: 0, y: -50 }}
                 key={1}
-                className="h-9 absolute w-48 justify-end right-10 flex items-center text-xl"
+                className="h-9 absolute w-48 justify-end right-10 flex items-center text-base md:text-xl"
               >
                 {item.name
                   .split("|")[1]
@@ -146,8 +207,8 @@ const GameBoard = ({
                   setNameValue(e.target.value);
                 }}
                 value={nameValue}
-                placeholder="e.g. fire serpent"
-                className="bg-[#0C1115] absolute right-10 text-base border-[1px] border-transparent focus:border-gray-200/30 rounded-lg h-9 w-48 outline-none px-2"
+                placeholder={hint.length > 0 ? hint : "e.g. safari mesh"}
+                className="bg-[#0C1115] absolute right-10 text-sm md:text-base border-[1px] border-transparent focus:border-gray-200/30 rounded-lg h-9 w-32 md:w-48 outline-none px-2"
               ></motion.input>
             )}
           </AnimatePresence>
@@ -170,15 +231,49 @@ const GameBoard = ({
             ) : isAnsweredName === "wrong" ? (
               <MdClose />
             ) : (
-              <RxCrosshair2 className="p-0.5" />
+              <RxCrosshair2 className="md:p-0.5" />
             )}
           </motion.button>
         </div>
       </div>
-      <div className="flex gap-2 w-[550px] text-2xl items-center justify-between">
+      <div className="flex gap-2 w-full px-4 md:px-0 md:w-[550px] text-base md:text-2xl items-center justify-between">
         <h3 className="flex gap-1 items-center">
-          Price
-          <AiFillQuestionCircle className="w-6 h-6" />
+          <span className="hidden md:block">Price</span>
+          <div className="relative">
+            <AiFillQuestionCircle
+              onMouseOver={() => {
+                setIsHoveredPriceInfo(true);
+              }}
+              onMouseLeave={() => {
+                setIsHoveredPriceInfo(false);
+              }}
+              className="w-6 h-6"
+            />
+            <AnimatePresence>
+              {isHoveredPriceInfo && (
+                <motion.div
+                  initial={{ opacity: 0, y: -20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.2 }}
+                  exit={{ y: -20, opacity: 0 }}
+                  className="absolute bottom-8 left-0 w-64 bg-gray-900 border-[1px] rounded-md"
+                >
+                  <p className="text-white text-sm  p-1">
+                    Correct guess adds{" "}
+                    <span
+                      className="font-semibold"
+                      style={{ color: "#" + item.rarity_color }}
+                    >
+                      1 point
+                    </span>{" "}
+                    to your score. Keep in mind that your guess has a slight
+                    margin of error (30%). Price is based on all-time average
+                    Steam price.
+                  </p>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
         </h3>
         <div className="flex gap-2 w-full h-9 relative justify-end items-center ">
           <AnimatePresence>
@@ -189,7 +284,7 @@ const GameBoard = ({
                 initial={{ opacity: 0, y: 50 }}
                 transition={{ duration: 0.6 }}
                 exit={{ opacity: 0, y: -50 }}
-                className="flex items-center absolute right-10 h-9 text-xl"
+                className="flex items-center absolute right-10 h-9 text-base md:text-xl"
               >
                 ${item.price}
               </motion.p>
@@ -213,8 +308,8 @@ const GameBoard = ({
                       setPriceValue(parseFloat(e.target.value));
                     }
                   }}
-                  placeholder="e.g. 10"
-                  className="bg-[#0C1115] text-base pr-12 border-[1px] border-transparent  focus:border-gray-200/30 rounded-lg h-9 w-48 outline-none px-2"
+                  placeholder={priceHint.length > 0 ? priceHint : "e.g. 10"}
+                  className="bg-[#0C1115] text-sm md:text-base pr-12 border-[1px] border-transparent  focus:border-gray-200/30 rounded-lg h-9 w-32 md:w-48 outline-none px-2"
                 ></input>
                 <span className="absolute pointer-events-none right-3 top-1/2 -translate-y-1/2 text-base">
                   USD
@@ -241,15 +336,48 @@ const GameBoard = ({
             ) : isAnsweredPrice === "wrong" ? (
               <MdClose />
             ) : (
-              <RxCrosshair2 className="p-0.5" />
+              <RxCrosshair2 className="md:md:p-0.5" />
             )}
           </motion.button>
         </div>
       </div>
-      <div className="flex gap-2 w-[550px] text-2xl items-center justify-between">
+      <div className="flex gap-2 w-full px-4 md:px-0 md:w-[550px] text-base md:text-2xl items-center justify-between">
         <h3 className="flex gap-1 items-center">
-          Condition
-          <AiFillQuestionCircle className="w-6 h-6" />
+          <span className="hidden md:block">Condition</span>
+          <div className="relative">
+            <AiFillQuestionCircle
+              onMouseOver={() => {
+                setIsHoveredConditionInfo(true);
+              }}
+              onMouseLeave={() => {
+                setIsHoveredConditionInfo(false);
+              }}
+              className="w-6 h-6"
+            />
+            <AnimatePresence>
+              {isHoveredConditionInfo && (
+                <motion.div
+                  initial={{ opacity: 0, y: -20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.2 }}
+                  exit={{ y: -20, opacity: 0 }}
+                  className="absolute bottom-8 left-0 w-64  bg-gray-900 border-[1px] rounded-md"
+                >
+                  <p className="text-white text-sm  p-1">
+                    Correct guess adds{" "}
+                    <span
+                      className="font-semibold"
+                      style={{ color: "#" + item.rarity_color }}
+                    >
+                      0.5 points
+                    </span>{" "}
+                    to your score. You are allowed to do a small typo. It's not
+                    case sensitive.
+                  </p>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
         </h3>
         <div className="flex gap-2 h-9 relative w-full justify-end items-center">
           <AnimatePresence>
@@ -260,7 +388,7 @@ const GameBoard = ({
                 initial={{ opacity: 0, y: 50 }}
                 transition={{ duration: 0.6 }}
                 exit={{ opacity: 0, y: -50 }}
-                className="h-9 absolute right-10 flex items-center text-xl"
+                className="h-9 absolute right-10 flex items-center text-base md:text-xl"
               >
                 {item.name
                   .split("|")[1]
@@ -290,7 +418,7 @@ const GameBoard = ({
                 }}
                 value={conditionValue}
                 placeholder="e.g. factory new"
-                className="bg-[#0C1115] absolute right-10 text-base pr-12 border-[1px] border-transparent  focus:border-gray-200/30 rounded-lg h-9 w-48 outline-none px-2"
+                className="bg-[#0C1115] absolute right-10 text-sm md:text-base  border-[1px] border-transparent  focus:border-gray-200/30 rounded-lg h-9 w-32 md:w-48 outline-none px-2"
               ></motion.input>
             )}
           </AnimatePresence>
@@ -313,7 +441,7 @@ const GameBoard = ({
             ) : isAnsweredCondition === "wrong" ? (
               <MdClose />
             ) : (
-              <RxCrosshair2 className="p-0.5" />
+              <RxCrosshair2 className="md:p-0.5" />
             )}
           </motion.button>
         </div>
@@ -322,15 +450,21 @@ const GameBoard = ({
       <BottomPanel
         setCurrentRound={setCurrentRound}
         index={index}
+        handleShowHint={handleShowHint}
+        handleShowPriceHint={handleShowPriceHint}
+        hintUsed={hintUsed}
+        priceHintUsed={priceHintUsed}
       />
       <div
         style={{ backgroundColor: "#" + item.rarity_color }}
-        className="absolute top-0 left-0 w-full flex items-center px-10 justify-between h-20 rounded-t-2xl"
+        className="absolute top-0 left-0 w-full flex items-center px-4 md:px-10 justify-between h-20 rounded-t-2xl"
       >
-        <span className=" text-2xl text-gray-100">
+        <span className=" text-xl md:text-2xl text-gray-100">
           Round {currentRound + 1}/{seed.length}
         </span>
-        <span className=" text-2xl text-gray-100">Score: {score}</span>
+        <span className=" text-xl md:text-2xl text-gray-100">
+          Score: {score}
+        </span>
       </div>
     </div>
   );
