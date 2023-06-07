@@ -7,18 +7,13 @@ import { BsCheck } from "react-icons/bs";
 import { RxCrosshair2 } from "react-icons/rx";
 import { MdClose } from "react-icons/md";
 import BottomPanel from "./GameBoard/BottomPanel";
+
 type Skin = {
   rarity_color: string;
-
   icon_url: string;
   icon_url_large?: string;
   name: string;
-  price: {
-    all_time: {
-      average: number;
-    };
-  };
-  classid: number;
+  price: number;
 };
 const GameBoard = ({
   seed,
@@ -81,7 +76,7 @@ const GameBoard = ({
     }
   };
   const handleCheckPrice = () => {
-    const actualPrice = item.price.all_time.average;
+    const actualPrice = item.price;
     const userPrice = priceValue;
 
     if (isNaN(userPrice)) {
@@ -123,7 +118,7 @@ const GameBoard = ({
               <motion.p
                 animate={{ opacity: 1, y: 0 }}
                 initial={{ opacity: 0, y: 50 }}
-                transition={{ duration: 0.8 }}
+                transition={{ duration: 0.6 }}
                 exit={{ opacity: 0, y: -50 }}
                 key={1}
                 className="h-9 absolute w-48 justify-end right-10 flex items-center text-xl"
@@ -137,9 +132,14 @@ const GameBoard = ({
               </motion.p>
             ) : (
               <motion.input
+                onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
+                  if (e.code === "Enter") {
+                    handleCheckName();
+                  }
+                }}
                 animate={{ opacity: 1, y: 0 }}
                 initial={{ opacity: 0, y: -50 }}
-                transition={{ duration: 0.8 }}
+                transition={{ duration: 0.6 }}
                 exit={{ opacity: 0, y: 50 }}
                 key={2}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
@@ -187,22 +187,27 @@ const GameBoard = ({
                 key={1}
                 animate={{ opacity: 1, y: 0 }}
                 initial={{ opacity: 0, y: 50 }}
-                transition={{ duration: 0.8 }}
+                transition={{ duration: 0.6 }}
                 exit={{ opacity: 0, y: -50 }}
                 className="flex items-center absolute right-10 h-9 text-xl"
               >
-                ${item.price.all_time.average}
+                ${item.price}
               </motion.p>
             ) : (
               <motion.div
                 animate={{ opacity: 1, y: 0 }}
                 initial={{ opacity: 0, y: -50 }}
-                transition={{ duration: 0.8 }}
+                transition={{ duration: 0.6 }}
                 exit={{ opacity: 0, y: 50 }}
                 key={2}
                 className="relative right-0  flex items-center h-9"
               >
                 <input
+                  onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
+                    if (e.code === "Enter") {
+                      handleCheckPrice();
+                    }
+                  }}
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                     if (!isNaN(parseFloat(e.target.value))) {
                       setPriceValue(parseFloat(e.target.value));
@@ -253,7 +258,7 @@ const GameBoard = ({
                 key={1}
                 animate={{ opacity: 1, y: 0 }}
                 initial={{ opacity: 0, y: 50 }}
-                transition={{ duration: 0.8 }}
+                transition={{ duration: 0.6 }}
                 exit={{ opacity: 0, y: -50 }}
                 className="h-9 absolute right-10 flex items-center text-xl"
               >
@@ -270,10 +275,15 @@ const GameBoard = ({
               </motion.p>
             ) : (
               <motion.input
+                onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
+                  if (e.code === "Enter") {
+                    handleCheckCondition();
+                  }
+                }}
                 key={2}
                 animate={{ opacity: 1, y: 0 }}
                 initial={{ opacity: 0, y: -50 }}
-                transition={{ duration: 0.8 }}
+                transition={{ duration: 0.6 }}
                 exit={{ opacity: 0, y: 50 }}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                   setConditionValue(e.target.value);

@@ -11,12 +11,7 @@ const PlayPage: React.FC = () => {
     icon_url: string;
     icon_url_large?: string;
     name: string;
-    price: {
-      all_time: {
-        average: number;
-      };
-    };
-    classid: number;
+    price: number;
   };
   const [seed, setSeed] = useState<Skin[]>([]);
   const [score, setScore] = useState<number>(0);
@@ -24,38 +19,19 @@ const PlayPage: React.FC = () => {
   const getItems = async () => {
     try {
       const response = await axios.get("/api/getitems");
-      const arrayList = [];
-      for (let i in response.data.data.items_list) {
-        arrayList.push(response.data.data.items_list[i]);
-      }
+
       let newSeed = seed;
 
       for (let i = 0; i < 5; i++) {
-        const randomIndex = Math.floor(Math.random() * arrayList.length);
-        if (
-          arrayList[randomIndex].name.toLowerCase().includes("sticker") ||
-          arrayList[randomIndex].name.toLowerCase().includes("graffiti") ||
-          arrayList[randomIndex].name.toLowerCase().includes("patch") ||
-          arrayList[randomIndex].name.toLowerCase().includes("music kit") ||
-          arrayList[randomIndex].name.toLowerCase().includes("pin") ||
-          arrayList[randomIndex].name.toLowerCase().includes("package") ||
-          arrayList[randomIndex].name.toLowerCase().includes("case") ||
-          arrayList[randomIndex].name.toLowerCase().includes("capsule") ||
-          arrayList[randomIndex].name.toLowerCase().includes("stattrak™") ||
-          arrayList[randomIndex].name.toLowerCase().includes("cmdr.") ||
-          arrayList[randomIndex].name.toLowerCase().includes("mr.") ||
-          !arrayList[randomIndex].name.toLowerCase().includes("|") ||
-          arrayList[randomIndex].price === undefined
-        ) {
-          i--;
-          continue;
-        } else {
-          newSeed = newSeed.concat(arrayList[randomIndex]);
-        }
+        const randomIndex = Math.floor(
+          Math.random() * response.data.itemsList.length
+        );
+
+        newSeed = newSeed.concat(response.data.itemsList[randomIndex]);
       }
 
       setSeed(newSeed);
-      return response.data.data.items_list;
+      return response.data;
     } catch (err) {
       console.log(err);
     }
