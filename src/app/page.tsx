@@ -1,6 +1,6 @@
 "use client";
 import BackgroundPlayer from "@/components/BackgroundPlayer";
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 const Homepage: React.FC = () => {
@@ -24,7 +24,6 @@ const Homepage: React.FC = () => {
           </h2>
         </Link>
       </div>
-      <button className="absolute left-6 bottom-6 z-20 w-12 h-12 bg-gray-600"></button>
     </main>
   );
 };

@@ -120,10 +120,10 @@ const GameBoard = ({
     setPriceHintUsed(true);
   };
   return (
-    <div className="rounded-2xl w-10/12 h-[90%] flex items-center gap-6 justify-center flex-col bg-[#0C1115]/70 backdrop-blur-sm">
-      <div className="flex h-2/6  justify-center">
+    <div className="rounded-2xl w-10/12 h-[600px] md:h-[90%] flex items-center gap-6 justify-center flex-col bg-[#0C1115]/70 backdrop-blur-sm">
+      <div className="flex h-2/6 justify-center">
         <Image
-          className=" object-contain pointer-events-none"
+          className="object-contain pointer-events-none"
           alt="skin image"
           src={`https://community.cloudflare.steamstatic.com/economy/image/${
             item.icon_url_large ? item.icon_url_large : item.icon_url

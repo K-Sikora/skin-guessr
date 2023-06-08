@@ -38,7 +38,7 @@ const BottomPanel = ({
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: 40 }}
                 transition={{ duration: 0.2 }}
-                className="absolute cursor-default rounded-lg flex items-center justify-center gap-3 -top-16 h-14 w-28 bg-gray-900 "
+                className="absolute cursor-default rounded-lg flex items-center justify-center gap-3 -top-16 h-14 w-28 bg-gray-900 border-2"
               >
                 <span
                   style={{
@@ -50,7 +50,7 @@ const BottomPanel = ({
                       handleShowPriceHint();
                     }
                   }}
-                  className="bg-green-700 hover:bg-green-600 duration-200 cursor-pointer shadow-md shadow-green-300/10 h-9 w-9 flex items-center justify-center group rounded-full"
+                  className="bg-green-600 hover:bg-green-500 duration-200 cursor-pointer shadow-md shadow-green-300/10 h-9 w-9 flex items-center justify-center group rounded-full"
                 >
                   <FaDollarSign />
                 </span>
@@ -64,7 +64,7 @@ const BottomPanel = ({
                       handleShowHint();
                     }
                   }}
-                  className="bg-green-700 hover:bg-green-600 duration-200 cursor-pointer shadow-md shadow-green-300/10 h-9 w-9 flex items-center justify-center group rounded-full"
+                  className="bg-green-600 hover:bg-green-500 duration-200 cursor-pointer shadow-md shadow-green-300/10 h-9 w-9 flex items-center justify-center group rounded-full"
                 >
                   <TbLetterCase />
                 </span>

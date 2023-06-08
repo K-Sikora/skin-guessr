@@ -6,6 +6,41 @@
   font-family: Counter-Strike;
   src: url("../../public/cs_regular.ttf");
 }
+
+@font-face {
+  font-family: "Steam";
+  src: url("../../public/Steam Font Black.ttf") format("truetype");
+  font-weight: 900;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Steam";
+  src: url("../../public/Steam Font Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Steam";
+  src: url("../../public/Steam Font Medium.ttf") format("truetype");
+  font-weight: 500;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Steam";
+  src: url("../../public/Steam Font.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+
 .menu {
   font-family: Counter-Strike;
+}
+body {
+  background-image: url("../../public/bg.jpg");
+  background-position: center center;
+  background-repeat: no-repeat;
+  font-family: DIN;
 }
