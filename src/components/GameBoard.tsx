@@ -23,10 +23,6 @@ const GameBoard = ({
   item,
   score,
   setScore,
-  hintUsed,
-  setPriceHintUsed,
-  setHintUsed,
-  priceHintUsed,
 }: {
   seed: Skin[];
   index: number;
@@ -35,23 +31,18 @@ const GameBoard = ({
   item: Skin;
   score: number;
   setScore: React.Dispatch<React.SetStateAction<number>>;
-  hintUsed: boolean;
-  setPriceHintUsed: React.Dispatch<React.SetStateAction<boolean>>;
-  setHintUsed: React.Dispatch<React.SetStateAction<boolean>>;
-  priceHintUsed: boolean;
 }) => {
   const [hint, setHint] = useState("");
   const [priceHint, setPriceHint] = useState("");
-  const [isHoveredNameInfo, setIsHoveredNameInfo] = useState<boolean>(false);
-  const [isHoveredConditionInfo, setIsHoveredConditionInfo] =
-    useState<boolean>(false);
-  const [isHoveredPriceInfo, setIsHoveredPriceInfo] = useState<boolean>(false);
-  const [isAnsweredName, setIsAnsweredName] = useState<string>("");
-  const [isAnsweredCondition, setIsAnsweredCondition] = useState<string>("");
-  const [isAnsweredPrice, setIsAnsweredPrice] = useState<string>("");
-  const [nameValue, setNameValue] = useState<string>("");
-  const [conditionValue, setConditionValue] = useState<string>("");
-  const [priceValue, setPriceValue] = useState<number>(0);
+  const [isHoveredNameInfo, setIsHoveredNameInfo] = useState(false);
+  const [isHoveredConditionInfo, setIsHoveredConditionInfo] = useState(false);
+  const [isHoveredPriceInfo, setIsHoveredPriceInfo] = useState(false);
+  const [isAnsweredName, setIsAnsweredName] = useState("");
+  const [isAnsweredCondition, setIsAnsweredCondition] = useState("");
+  const [isAnsweredPrice, setIsAnsweredPrice] = useState("");
+  const [nameValue, setNameValue] = useState("");
+  const [conditionValue, setConditionValue] = useState("");
+  const [priceValue, setPriceValue] = useState(0);
   const handleCheckName = () => {
     if (nameValue.length > 0) {
       const modifiedNameValue = nameValue.replace(/&#39s/g, "'");
@@ -63,10 +54,11 @@ const GameBoard = ({
       if (
         distance(onlyName.toLowerCase(), modifiedNameValue.toLowerCase()) > 0.88
       ) {
-        setScore((prev) => prev + 1);
+        setScore((prev) => prev + 1000);
         setIsAnsweredName("right");
       } else {
         setIsAnsweredName("wrong");
+        setScore((prev) => prev - 1000);
       }
     }
   };
@@ -82,10 +74,11 @@ const GameBoard = ({
           onlyCondition.substring(0, onlyCondition.length - 1).toLowerCase()
         ) > 0.92
       ) {
-        setScore((prev) => prev + 0.5);
+        setScore((prev) => prev + 750);
         setIsAnsweredCondition("right");
       } else {
         setIsAnsweredCondition("wrong");
+        setScore((prev) => prev - 750);
       }
     }
   };
@@ -100,10 +93,11 @@ const GameBoard = ({
       const upperBound = actualPrice + actualPrice * 0.3;
 
       if (userPrice >= lowerBound && userPrice <= upperBound) {
-        setScore((prev) => prev + 0.5);
+        setScore((prev) => prev + 1000);
         setIsAnsweredPrice("right");
       } else {
         setIsAnsweredPrice("wrong");
+        setScore((prev) => prev - 1000);
       }
     }
   };
@@ -113,11 +107,11 @@ const GameBoard = ({
     const twoLetters = itemName.slice(0, 2);
 
     setHint(twoLetters + "...");
-    setHintUsed(true);
+    setScore(score - 500);
   };
   const handleShowPriceHint = () => {
     setPriceHint(item.price.toString().charAt(0));
-    setPriceHintUsed(true);
+    setScore(score - 500);
   };
   return (
     <div className="rounded-2xl w-10/12 h-[600px] md:h-[90%] flex items-center gap-6 justify-center flex-col bg-[#0C1115]/70 backdrop-blur-sm">
@@ -157,16 +151,16 @@ const GameBoard = ({
                   className="absolute bottom-8 left-0 w-64 bg-gray-900 border-[1px] rounded-md"
                 >
                   <p className="text-white text-sm  p-1">
-                    Correct guess adds{" "}
+                    This guess will increase or reduce your account balance by{" "}
                     <span
                       className="font-semibold"
                       style={{ color: "#" + item.rarity_color }}
                     >
-                      1 point
-                    </span>{" "}
-                    to your score. Your guess has a slight margin of error
-                    (0.88) in the Jaro-Winkler distance. If the distance exceeds
-                    this threshold, it will be considered incorrect.
+                      $1000
+                    </span>
+                    . Your guess has a slight margin of error (0.88) in the
+                    Jaro-Winkler distance. If the distance exceeds this
+                    threshold, it will be considered incorrect.
                   </p>
                 </motion.div>
               )}
@@ -259,16 +253,15 @@ const GameBoard = ({
                   className="absolute bottom-8 left-0 w-64 bg-gray-900 border-[1px] rounded-md"
                 >
                   <p className="text-white text-sm  p-1">
-                    Correct guess adds{" "}
+                    This guess will increase or reduce your account balance by{" "}
                     <span
                       className="font-semibold"
                       style={{ color: "#" + item.rarity_color }}
                     >
-                      1 point
-                    </span>{" "}
-                    to your score. Keep in mind that your guess has a slight
-                    margin of error (30%). Price is based on all-time average
-                    Steam price.
+                      $1000
+                    </span>
+                    . Keep in mind that your guess has a slight margin of error
+                    (30%). Price is based on all-time average Steam price.
                   </p>
                 </motion.div>
               )}
@@ -364,15 +357,15 @@ const GameBoard = ({
                   className="absolute bottom-8 left-0 w-64  bg-gray-900 border-[1px] rounded-md"
                 >
                   <p className="text-white text-sm  p-1">
-                    Correct guess adds{" "}
+                    This guess will increase or reduce your account balance by{" "}
                     <span
                       className="font-semibold"
                       style={{ color: "#" + item.rarity_color }}
                     >
-                      0.5 points
-                    </span>{" "}
-                    to your score. You are allowed to do a small typo. It&apos;s
-                    not case sensitive.
+                      $750
+                    </span>
+                    . You are allowed to do a small typo. It&apos;s not case
+                    sensitive.
                   </p>
                 </motion.div>
               )}
@@ -448,22 +441,26 @@ const GameBoard = ({
       </div>
 
       <BottomPanel
+        score={score}
+        setScore={setScore}
         setCurrentRound={setCurrentRound}
         index={index}
         handleShowHint={handleShowHint}
         handleShowPriceHint={handleShowPriceHint}
-        hintUsed={hintUsed}
-        priceHintUsed={priceHintUsed}
+        isAnsweredName={isAnsweredName}
+        isAnsweredCondition={isAnsweredCondition}
+        isAnsweredPrice={isAnsweredPrice}
+        rarity_color={item.rarity_color}
       />
       <div
         style={{ backgroundColor: "#" + item.rarity_color }}
         className="absolute top-0 left-0 w-full flex items-center px-4 md:px-10 justify-between h-20 rounded-t-2xl"
       >
         <span className=" text-xl md:text-2xl text-gray-100">
-          Round {currentRound + 1}/{seed.length}
+          Round {currentRound + 1}
         </span>
         <span className=" text-xl md:text-2xl text-gray-100">
-          Score: {score}
+          Money: ${score}
         </span>
       </div>
     </div>

@@ -3,36 +3,48 @@
 @tailwind utilities;
 
 @font-face {
-  font-family: Counter-Strike;
-  src: url("../../public/cs_regular.ttf");
-}
-
-@font-face {
-  font-family: "Steam";
-  src: url("../../public/Steam Font Black.ttf") format("truetype");
-  font-weight: 900;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "Steam";
-  src: url("../../public/Steam Font Bold.ttf") format("truetype");
-  font-weight: 700;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "Steam";
-  src: url("../../public/Steam Font Medium.ttf") format("truetype");
+  font-family: "Counter-Strike";
+  src: url("../../public/fonts/Counter-StrikeRegular.woff2") format("woff2"),
+    url("../../public/fonts/Counter-StrikeRegular.woff") format("woff");
   font-weight: 500;
   font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
-  font-family: "Steam";
-  src: url("../../public/Steam Font.ttf") format("truetype");
-  font-weight: 400;
+  font-family: "DIN";
+  src: url("../../public/fonts/DIN-Black.woff2") format("woff2"),
+    url("../../public/fonts/DIN-Black.woff") format("woff");
+  font-weight: 900;
   font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "DIN";
+  src: url("../../public/fonts/DINBold.woff2") format("woff2"),
+    url("../../public/fonts/DINBold.woff") format("woff");
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "DIN";
+  src: url("../../public/fonts/DIN.woff2") format("woff2"),
+    url("../../public/fonts/DIN.woff") format("woff");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "DIN";
+  src: url("../../public/fonts/DIN-Medium.woff2") format("woff2"),
+    url("../../public/fonts/DIN-Medium.woff") format("woff");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
 }
 
 .menu {

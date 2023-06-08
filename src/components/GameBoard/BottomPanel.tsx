@@ -9,16 +9,29 @@ const BottomPanel = ({
   index,
   handleShowHint,
   handleShowPriceHint,
-  hintUsed,
-  priceHintUsed,
+  isAnsweredName,
+  isAnsweredCondition,
+  isAnsweredPrice,
+  rarity_color,
+  score,
+  setScore,
 }: {
   setCurrentRound: React.Dispatch<React.SetStateAction<number>>;
   index: number;
   handleShowHint: Function;
   handleShowPriceHint: Function;
-  hintUsed: boolean;
-  priceHintUsed: boolean;
+  isAnsweredName: string;
+  isAnsweredCondition: string;
+  isAnsweredPrice: string;
+  rarity_color: string;
+  score: number;
+  setScore: React.Dispatch<React.SetStateAction<number>>;
 }) => {
+  const [notAnswered, setNotAnswered] = useState(false);
+  const [nameHintMenuVisible, setNameHintMenuVisible] = useState(false);
+  const [priceHintMenuVisible, setPriceHintMenuVisible] = useState(false);
+  const [priceHintUsed, setPriceHintUsed] = useState(false);
+  const [hintUsed, setHintUsed] = useState(false);
   const [hintMenuVisible, setHintMenuVisible] = useState(false);
   return (
     <div className="absolute bottom-5 w-full items-center px-4 md:px-8 grid grid-cols-2 md:grid-cols-3">
@@ -41,6 +54,8 @@ const BottomPanel = ({
                 className="absolute cursor-default rounded-lg flex items-center justify-center gap-3 -top-16 h-14 w-28 bg-gray-900 border-2"
               >
                 <span
+                  onMouseOver={() => setPriceHintMenuVisible(true)}
+                  onMouseLeave={() => setPriceHintMenuVisible(false)}
                   style={{
                     backgroundColor: priceHintUsed ? "#4b5563" : "",
                     pointerEvents: priceHintUsed ? "none" : "all",
@@ -48,13 +63,29 @@ const BottomPanel = ({
                   onClick={() => {
                     if (!priceHintUsed) {
                       handleShowPriceHint();
+                      setPriceHintUsed(true);
                     }
                   }}
-                  className="bg-green-600 hover:bg-green-500 duration-200 cursor-pointer shadow-md shadow-green-300/10 h-9 w-9 flex items-center justify-center group rounded-full"
+                  className="bg-green-600  relative hover:bg-green-500 duration-200 cursor-pointer shadow-md shadow-green-300/10 h-9 w-9 flex items-center justify-center group rounded-full"
                 >
                   <FaDollarSign />
+                  {priceHintMenuVisible && !priceHintUsed && (
+                    <div className="text-sm p-1 absolute bottom-14 w-44 bg-gray-800 border-[1px] rounded-lg left-0 md:left-1/2 md:-translate-x-1/2">
+                      For{" "}
+                      <span
+                        style={{ color: "#" + rarity_color }}
+                        className="font-semibold"
+                      >
+                        $500
+                      </span>
+                      , this hint will show you the first digit of the skin
+                      price.
+                    </div>
+                  )}
                 </span>
                 <span
+                  onMouseOver={() => setNameHintMenuVisible(true)}
+                  onMouseLeave={() => setNameHintMenuVisible(false)}
                   style={{
                     backgroundColor: hintUsed ? "#4b5563" : "",
                     pointerEvents: hintUsed ? "none" : "all",
@@ -62,11 +93,25 @@ const BottomPanel = ({
                   onClick={() => {
                     if (!hintUsed) {
                       handleShowHint();
+                      setHintUsed(true);
                     }
                   }}
-                  className="bg-green-600 hover:bg-green-500 duration-200 cursor-pointer shadow-md shadow-green-300/10 h-9 w-9 flex items-center justify-center group rounded-full"
+                  className="bg-green-600 relative hover:bg-green-500 duration-200 cursor-pointer shadow-md shadow-green-300/10 h-9 w-9 flex items-center justify-center group rounded-full"
                 >
                   <TbLetterCase />
+                  {nameHintMenuVisible && !hintUsed && (
+                    <div className="text-sm p-1 absolute bottom-14 w-44 bg-gray-800 border-[1px] rounded-lg left-0 md:left-1/2 md:-translate-x-1/2">
+                      For{" "}
+                      <span
+                        style={{ color: "#" + rarity_color }}
+                        className="font-semibold"
+                      >
+                        $500
+                      </span>
+                      , this hint will show you the two first letters of the
+                      skin name.
+                    </div>
+                  )}
                 </span>
               </motion.div>
             )}
@@ -79,11 +124,34 @@ const BottomPanel = ({
       <div className="w-full flex justify-end">
         <button
           onClick={() => {
-            setCurrentRound(index + 1);
+            console.log(isAnsweredName.length);
+            if (
+              (isAnsweredName.length !== 0 &&
+                isAnsweredCondition.length !== 0 &&
+                isAnsweredPrice.length !== 0) ||
+              notAnswered
+            ) {
+              if (notAnswered) {
+                if (isAnsweredName.length === 0) {
+                  setScore((prev) => prev - 1000);
+                }
+                if (isAnsweredPrice.length === 0) {
+                  setScore((prev) => prev - 1000);
+                }
+                if (isAnsweredCondition.length === 0) {
+                  setScore((prev) => prev - 750);
+                }
+              }
+              setCurrentRound((prev) => prev + 1);
+            } else {
+              setNotAnswered(true);
+            }
           }}
           className="flex items-center justify-center gap-2  bg-gradient-to-r from-green-500 to-green-600 w-48 h-10 rounded-xl"
         >
-          <span className="text-lg">Next</span>
+          <span className="text-lg">
+            {notAnswered ? "Are you sure?" : "Next"}
+          </span>
         </button>
       </div>
     </div>
