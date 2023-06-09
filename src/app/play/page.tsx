@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useQuery } from "react-query";
 import axios from "axios";
 import GameBoard from "@/components/GameBoard";
-import { RxSpeakerLoud, RxSpeakerOff } from "react-icons/rx";
+import { RxSpeakerLoud, RxSpeakerOff, RxHome } from "react-icons/rx";
 import Link from "next/link";
 import Lottie from "lottie-react";
 import loading from "../../../public/loading.json";
@@ -26,7 +26,7 @@ const PlayPage: React.FC = () => {
   const [bestScore, setBestScore] = useState<number | null>(null);
   const [musicEnabled, setMusicEnabled] = useState(1);
   const [seed, setSeed] = useState<Skin[]>([]);
-  const [score, setScore] = useState(16000);
+  const [score, setScore] = useState(8000);
   const [currentRound, setCurrentRound] = useState(0);
   const getItems = async () => {
     try {
@@ -73,7 +73,7 @@ const PlayPage: React.FC = () => {
   }, [currentRound]);
 
   return (
-    <div className="w-full h-screen flex items-center justify-center relative container-bg ">
+    <div className="w-full min-h-screen flex items-center justify-center relative container-bg ">
       {isLoading ? (
         <div className="rounded-2xl text-center text-2xl text-white w-3/4 h-[500px] flex items-center gap-6 justify-center flex-col bg-[#0C1115]/70 backdrop-blur-sm">
           Generating seed for your game...
@@ -85,7 +85,7 @@ const PlayPage: React.FC = () => {
           </div>
         </div>
       ) : (
-        <div className="relative flex-col overflow-x-hidden flex h-full w-full items-center justify-center">
+        <div className="relative flex-col overflow-x-hidden flex h-[700px] w-full items-center justify-center">
           {seed.map((item, index) => (
             <div
               className="w-full h-full absolute"
@@ -146,16 +146,7 @@ const PlayPage: React.FC = () => {
               </AnimatePresence>
             </div>
           ))}
-          <button
-            onClick={() => setMusicEnabled(musicEnabled === 0 ? 1 : 0)}
-            className="absolute flex items-center justify-center left-6 bottom-6 z-20 w-12 h-12 bg-gray-900 rounded-xl"
-          >
-            {musicEnabled > 0 ? (
-              <RxSpeakerLoud className="text-white w-full h-full p-3" />
-            ) : (
-              <RxSpeakerOff className="text-white w-full h-full p-3" />
-            )}
-          </button>
+
           <AnimatePresence>
             {infoPopupVisible && (
               <motion.div
@@ -171,6 +162,16 @@ const PlayPage: React.FC = () => {
           </AnimatePresence>
         </div>
       )}
+      <button
+        onClick={() => setMusicEnabled(musicEnabled === 0 ? 1 : 0)}
+        className="absolute flex items-center justify-center left-1 bottom-1 z-20 w-12 h-12 bg-gray-900 rounded-xl"
+      >
+        {musicEnabled > 0 ? (
+          <RxSpeakerLoud className="text-white w-full h-full p-3" />
+        ) : (
+          <RxSpeakerOff className="text-white w-full h-full p-3" />
+        )}
+      </button>
     </div>
   );
 };

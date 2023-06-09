@@ -11,14 +11,14 @@ const InfoPopup = ({
         initial={{ scale: 0 }}
         animate={{ scale: 1 }}
         transition={{ duration: 0.3 }}
-        className="w-11/12 md:w-3/4 h-3/4 bg-gray-900 rounded-xl p-2 md:p-4 text-sm md:text-lg flex flex-col justify-between"
+        className=" w-11/12 bg-gray-900 rounded-xl p-3 md:p-4 text-sm md:text-lg flex flex-col justify-between"
       >
-        <ul className="list-disc list-inside ">
+        <ul className="list-disc list-inside mb-4">
           <h3 className="text-center text-lg md:text-2xl mb-4">
             Instructions of the game
           </h3>
           <li>
-            The game starts with <span className="font-semibold">$16,000</span>.
+            The game starts with <span className="font-semibold">$8,000</span>.
           </li>
           <li>
             Each round of the game consists of three fields to guess: the skin
@@ -63,7 +63,7 @@ const InfoPopup = ({
 
         <button
           onClick={() => setInfoPopupVisible(false)}
-          className="self-end flex shadow-md shadow-gray-400/5 hover:shadow-lg hover:shadow-gray-400/5 duration-300 font-semibold items-center justify-center gap-2 bg-gradient-to-r from-green-600 to-green-700 w-36 h-9 rounded-xl"
+          className="self-end flex shadow-md shadow-gray-400/5 hover:shadow-lg hover:shadow-gray-400/5 duration-300 font-medium items-center justify-center gap-2 bg-gradient-to-r from-green-600 to-green-700 w-36 h-9 rounded-xl"
         >
           Got it!
         </button>

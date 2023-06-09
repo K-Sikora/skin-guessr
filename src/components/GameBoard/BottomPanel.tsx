@@ -43,7 +43,7 @@ const BottomPanel = ({
           onClick={() => {
             setHintMenuVisible(!hintMenuVisible);
           }}
-          className="bg-green-700 relative h-10 w-10 flex items-center justify-center group rounded-xl"
+          className="bg-green-600 relative h-10 w-10 flex items-center justify-center group rounded-xl"
         >
           <IoIosHelpBuoy className="w-full h-full p-1 text-gray-200 group-hover:text-white duration-200" />
           <AnimatePresence>
@@ -121,7 +121,7 @@ const BottomPanel = ({
         </button>
         <button
           onClick={() => setInfoPopupVisible(true)}
-          className="bg-green-700 h-10 w-10 flex items-center justify-center group rounded-xl"
+          className="bg-green-600 h-10 w-10 flex items-center justify-center group rounded-xl"
         >
           <BsQuestionLg className="w-full h-full p-2 text-gray-200 group-hover:text-white duration-200" />
         </button>
@@ -151,7 +151,7 @@ const BottomPanel = ({
               setNotAnswered(true);
             }
           }}
-          className="flex items-center justify-center gap-2  bg-gradient-to-r from-green-500 to-green-600 w-48 h-10 rounded-xl"
+          className="flex items-center justify-center gap-2 font-medium bg-gradient-to-r from-green-500 to-green-600 w-48 h-10 rounded-xl"
         >
           <span className="text-lg">
             {notAnswered ? "Are you sure?" : "Next"}

@@ -2,12 +2,20 @@ import React, { useState } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import distance from "jaro-winkler";
-import { AiFillQuestionCircle } from "react-icons/ai";
+import { AiFillQuestionCircle, AiOutlineCheck } from "react-icons/ai";
 import { BsCheck } from "react-icons/bs";
 import { RxCrosshair2 } from "react-icons/rx";
 import { MdClose } from "react-icons/md";
 import BottomPanel from "./GameBoard/BottomPanel";
 import { Howl, Howler } from "howler";
+import { Listbox } from "@headlessui/react";
+const conditions = [
+  "Factory New",
+  "Minimal Wear",
+  "Field-Tested",
+  "Well-Worn",
+  "Battle-Scarred",
+];
 type Skin = {
   rarity_color: string;
   icon_url: string;
@@ -42,6 +50,9 @@ const GameBoard = ({
     preload: true,
     volume: musicEnabled,
   });
+
+  const [selectedCondition, setSelectedCondition] = useState(conditions[0]);
+
   const [hint, setHint] = useState("");
   const [priceHint, setPriceHint] = useState("");
   const [isHoveredNameInfo, setIsHoveredNameInfo] = useState(false);
@@ -75,25 +86,23 @@ const GameBoard = ({
   };
 
   const handleCheckCondition = () => {
-    if (conditionValue.length > 0) {
-      guessSound.play();
+    guessSound.play();
 
-      const onlyCondition = item.name.split("|")[1].trim().split("(")[1].trim();
-      console.log(
+    const onlyCondition = item.name.split("|")[1].trim().split("(")[1].trim();
+    console.log(
+      onlyCondition.substring(0, onlyCondition.length - 1).toLowerCase()
+    );
+    if (
+      distance(
+        selectedCondition.toLowerCase(),
         onlyCondition.substring(0, onlyCondition.length - 1).toLowerCase()
-      );
-      if (
-        distance(
-          conditionValue.toLowerCase(),
-          onlyCondition.substring(0, onlyCondition.length - 1).toLowerCase()
-        ) > 0.92
-      ) {
-        setScore((prev) => prev + 750);
-        setIsAnsweredCondition("right");
-      } else {
-        setIsAnsweredCondition("wrong");
-        setScore((prev) => prev - 750);
-      }
+      ) > 0.92
+    ) {
+      setScore((prev) => prev + 750);
+      setIsAnsweredCondition("right");
+    } else {
+      setIsAnsweredCondition("wrong");
+      setScore((prev) => prev - 750);
     }
   };
   const handleCheckPrice = () => {
@@ -129,8 +138,9 @@ const GameBoard = ({
     setPriceHint(item.price.toString().charAt(0));
     setScore(score - 500);
   };
+
   return (
-    <div className="rounded-2xl w-10/12 h-[600px] md:h-[90%] flex items-center gap-6 justify-center flex-col bg-[#0C1115]/70 backdrop-blur-sm">
+    <div className="rounded-2xl relative w-10/12 h-[650px] md:h-[700px] flex items-center gap-6 justify-center flex-col bg-[#0C1115]/70 backdrop-blur-sm">
       <div className="flex h-2/6 justify-center">
         <Image
           className="object-contain pointer-events-none"
@@ -380,8 +390,7 @@ const GameBoard = ({
                     >
                       $750
                     </span>
-                    . You are allowed to do a small typo. It&apos;s not case
-                    sensitive.
+                    .
                   </p>
                 </motion.div>
               )}
@@ -411,24 +420,56 @@ const GameBoard = ({
                   )}
               </motion.p>
             ) : (
-              <motion.input
-                onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
-                  if (e.code === "Enter") {
-                    handleCheckCondition();
-                  }
-                }}
-                key={2}
-                animate={{ opacity: 1, y: 0 }}
-                initial={{ opacity: 0, y: -50 }}
-                transition={{ duration: 0.6 }}
-                exit={{ opacity: 0, y: 50 }}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                  setConditionValue(e.target.value);
-                }}
-                value={conditionValue}
-                placeholder="e.g. factory new"
-                className="bg-[#0C1115] absolute right-10 text-sm md:text-base  border-[1px] border-transparent  focus:border-gray-200/30 rounded-lg h-9 w-32 md:w-48 outline-none px-2"
-              ></motion.input>
+              // <motion.input
+              //   onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
+              //     if (e.code === "Enter") {
+              //       handleCheckCondition();
+              //     }
+              //   }}
+              //   key={2}
+              //   animate={{ opacity: 1, y: 0 }}
+              //   initial={{ opacity: 0, y: -50 }}
+              //   transition={{ duration: 0.6 }}
+              //   exit={{ opacity: 0, y: 50 }}
+              //   onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+              //     setConditionValue(e.target.value);
+              //   }}
+              //   value={conditionValue}
+              //   placeholder="e.g. factory new"
+              //   className="bg-[#0C1115] absolute right-10 text-sm md:text-base  border-[1px] border-transparent  focus:border-gray-200/30 rounded-lg h-9 w-32 md:w-48 outline-none px-2"
+              // ></motion.input>
+              <Listbox
+                value={selectedCondition}
+                onChange={setSelectedCondition}
+              >
+                <Listbox.Button className="bg-[#0C1115] flex items-center justify-start absolute right-10 text-sm md:text-base rounded-lg h-9 w-32 md:w-48 outline-none px-2">
+                  {selectedCondition}
+                </Listbox.Button>
+                <Listbox.Options className="bg-gray-900 text-base rounded-lg flex flex-col absolute top-9 right-10 w-32 md:w-48 z-40">
+                  {conditions.map((condition, index) => (
+                    <Listbox.Option
+                      className="p-1 z-40 hover:bg-gray-600 duration-100 cursor-pointer last:rounded-b-lg first:rounded-t-lg"
+                      key={index}
+                      value={condition}
+                    >
+                      {({ selected }) => (
+                        <li
+                          className={`${
+                            selected ? "text-white" : "text-gray-200"
+                          } flex items-center pl-6 relative`}
+                        >
+                          {selected && (
+                            <div className="absolute left-0 top-0 h-full flex items-center">
+                              <AiOutlineCheck />
+                            </div>
+                          )}
+                          {condition}
+                        </li>
+                      )}
+                    </Listbox.Option>
+                  ))}
+                </Listbox.Options>
+              </Listbox>
             )}
           </AnimatePresence>
           <motion.button
