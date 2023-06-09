@@ -7,7 +7,7 @@ import { BsCheck } from "react-icons/bs";
 import { RxCrosshair2 } from "react-icons/rx";
 import { MdClose } from "react-icons/md";
 import BottomPanel from "./GameBoard/BottomPanel";
-
+import { Howl, Howler } from "howler";
 type Skin = {
   rarity_color: string;
   icon_url: string;
@@ -23,6 +23,8 @@ const GameBoard = ({
   item,
   score,
   setScore,
+  setInfoPopupVisible,
+  musicEnabled,
 }: {
   seed: Skin[];
   index: number;
@@ -31,7 +33,15 @@ const GameBoard = ({
   item: Skin;
   score: number;
   setScore: React.Dispatch<React.SetStateAction<number>>;
+  setInfoPopupVisible: React.Dispatch<React.SetStateAction<boolean>>;
+  musicEnabled: number;
 }) => {
+  const guessSound = new Howl({
+    src: ["./guessSound.mp3"],
+    html5: true,
+    preload: true,
+    volume: musicEnabled,
+  });
   const [hint, setHint] = useState("");
   const [priceHint, setPriceHint] = useState("");
   const [isHoveredNameInfo, setIsHoveredNameInfo] = useState(false);
@@ -45,6 +55,7 @@ const GameBoard = ({
   const [priceValue, setPriceValue] = useState(0);
   const handleCheckName = () => {
     if (nameValue.length > 0) {
+      guessSound.play();
       const modifiedNameValue = nameValue.replace(/&#39s/g, "'");
       const onlyName: string = item.name
         .split("|")[1]
@@ -62,8 +73,11 @@ const GameBoard = ({
       }
     }
   };
+
   const handleCheckCondition = () => {
     if (conditionValue.length > 0) {
+      guessSound.play();
+
       const onlyCondition = item.name.split("|")[1].trim().split("(")[1].trim();
       console.log(
         onlyCondition.substring(0, onlyCondition.length - 1).toLowerCase()
@@ -89,6 +103,8 @@ const GameBoard = ({
     if (priceValue <= 0) {
       setScore((prev) => prev);
     } else {
+      guessSound.play();
+
       const lowerBound = actualPrice - actualPrice * 0.3;
       const upperBound = actualPrice + actualPrice * 0.3;
 
@@ -451,15 +467,16 @@ const GameBoard = ({
         isAnsweredCondition={isAnsweredCondition}
         isAnsweredPrice={isAnsweredPrice}
         rarity_color={item.rarity_color}
+        setInfoPopupVisible={setInfoPopupVisible}
       />
       <div
         style={{ backgroundColor: "#" + item.rarity_color }}
         className="absolute top-0 left-0 w-full flex items-center px-4 md:px-10 justify-between h-20 rounded-t-2xl"
       >
-        <span className=" text-xl md:text-2xl text-gray-100">
+        <span className="font-medium text-xl md:text-2xl text-gray-100">
           Round {currentRound + 1}
         </span>
-        <span className=" text-xl md:text-2xl text-gray-100">
+        <span className="font-medium text-xl md:text-2xl text-gray-100">
           Money: ${score}
         </span>
       </div>

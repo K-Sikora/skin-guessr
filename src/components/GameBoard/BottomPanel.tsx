@@ -15,6 +15,7 @@ const BottomPanel = ({
   rarity_color,
   score,
   setScore,
+  setInfoPopupVisible,
 }: {
   setCurrentRound: React.Dispatch<React.SetStateAction<number>>;
   index: number;
@@ -26,6 +27,7 @@ const BottomPanel = ({
   rarity_color: string;
   score: number;
   setScore: React.Dispatch<React.SetStateAction<number>>;
+  setInfoPopupVisible: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const [notAnswered, setNotAnswered] = useState(false);
   const [nameHintMenuVisible, setNameHintMenuVisible] = useState(false);
@@ -117,14 +119,16 @@ const BottomPanel = ({
             )}
           </AnimatePresence>
         </button>
-        <button className="bg-green-700 h-10 w-10 flex items-center justify-center group rounded-xl">
+        <button
+          onClick={() => setInfoPopupVisible(true)}
+          className="bg-green-700 h-10 w-10 flex items-center justify-center group rounded-xl"
+        >
           <BsQuestionLg className="w-full h-full p-2 text-gray-200 group-hover:text-white duration-200" />
         </button>
       </div>
       <div className="w-full flex justify-end">
         <button
           onClick={() => {
-            console.log(isAnsweredName.length);
             if (
               (isAnsweredName.length !== 0 &&
                 isAnsweredCondition.length !== 0 &&
