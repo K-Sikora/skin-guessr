@@ -88,7 +88,7 @@ const PlayPage: React.FC = () => {
             </div>
           </div>
         ) : (
-          <div className="relative flex-col overflow-x-hidden flex h-[750px] w-full items-center justify-center">
+          <div className="relative flex-col overflow-x-hidden flex h-[600px] w-full items-center justify-center">
             {seed.map((item, index) => (
               <div
                 className="w-full h-full absolute"
@@ -116,7 +116,7 @@ const PlayPage: React.FC = () => {
                           musicEnabled={musicEnabled}
                         />
                       ) : (
-                        <div className="rounded-2xl w-10/12 h-[500px]  flex items-center gap-6 justify-center flex-col bg-[#0C1115]/70 backdrop-blur-sm">
+                        <div className="rounded-2xl w-11/12 h-[600px]  flex items-center gap-6 justify-center flex-col bg-[#0C1115]/70 backdrop-blur-sm">
                           <h2 className="text-4xl text-red-400 font-bold">
                             You lost!
                           </h2>

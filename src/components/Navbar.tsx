@@ -2,7 +2,7 @@ import React from "react";
 import Link from "next/link";
 const Navbar = () => {
   return (
-    <header className="px-1 h-20 flex items-center justify-start bg-gradient-to-b from-gray-950/90 to-gray-950/50">
+    <header className="px-1 h-24 flex items-center justify-start bg-gradient-to-b from-gray-950/90 to-gray-950/0">
       <Link href="/">
         <img
           src="./logo.svg"

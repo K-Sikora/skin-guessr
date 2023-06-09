@@ -140,7 +140,7 @@ const GameBoard = ({
   };
 
   return (
-    <div className="rounded-2xl relative w-10/12 h-full flex pt-20 items-center gap-6 justify-start flex-col bg-[#0C1115]/70 backdrop-blur-sm">
+    <div className="rounded-2xl relative w-11/12 h-full flex pt-16 items-center gap-6 justify-start flex-col bg-[#0C1115]/70 backdrop-blur-sm">
       <div className="flex h-2/6 justify-center">
         <Image
           className="object-contain pointer-events-none"
@@ -256,110 +256,7 @@ const GameBoard = ({
           </motion.button>
         </div>
       </div>
-      <div className="flex gap-2 w-full px-4 md:px-0 md:w-[550px] text-base md:text-2xl items-center justify-between">
-        <h3 className="flex gap-1 items-center">
-          <span className="hidden md:block">Price</span>
-          <div className="relative">
-            <AiFillQuestionCircle
-              onMouseOver={() => {
-                setIsHoveredPriceInfo(true);
-              }}
-              onMouseLeave={() => {
-                setIsHoveredPriceInfo(false);
-              }}
-              className="w-6 h-6"
-            />
-            <AnimatePresence>
-              {isHoveredPriceInfo && (
-                <motion.div
-                  initial={{ opacity: 0, y: -20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.2 }}
-                  exit={{ y: -20, opacity: 0 }}
-                  className="absolute bottom-8 left-0 w-64 bg-gray-900 border-[1px] rounded-md"
-                >
-                  <p className="text-white text-sm  p-1">
-                    This guess will increase or reduce your account balance by{" "}
-                    <span
-                      className="font-semibold"
-                      style={{ color: "#" + item.rarity_color }}
-                    >
-                      $1000
-                    </span>
-                    . Keep in mind that your guess has a slight margin of error
-                    (30%). Price is based on all-time average Steam price.
-                  </p>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
-        </h3>
-        <div className="flex gap-2 w-full h-9 relative justify-end items-center ">
-          <AnimatePresence>
-            {isAnsweredPrice.length > 0 ? (
-              <motion.p
-                key={1}
-                animate={{ opacity: 1, y: 0 }}
-                initial={{ opacity: 0, y: 50 }}
-                transition={{ duration: 0.6 }}
-                exit={{ opacity: 0, y: -50 }}
-                className="flex items-center absolute right-10 h-9 text-base md:text-xl"
-              >
-                ${item.price}
-              </motion.p>
-            ) : (
-              <motion.div
-                animate={{ opacity: 1, y: 0 }}
-                initial={{ opacity: 0, y: -50 }}
-                transition={{ duration: 0.6 }}
-                exit={{ opacity: 0, y: 50 }}
-                key={2}
-                className="relative right-0  flex items-center h-9"
-              >
-                <input
-                  onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
-                    if (e.code === "Enter") {
-                      handleCheckPrice();
-                    }
-                  }}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                    if (!isNaN(parseFloat(e.target.value))) {
-                      setPriceValue(parseFloat(e.target.value));
-                    }
-                  }}
-                  placeholder={priceHint.length > 0 ? priceHint : "e.g. 10"}
-                  className="bg-[#0C1115] text-sm md:text-base pr-12 border-[1px] border-transparent  focus:border-gray-200/30 rounded-lg h-9 w-32 md:w-48 outline-none px-2"
-                ></input>
-                <span className="absolute pointer-events-none right-3 top-1/2 -translate-y-1/2 text-base">
-                  USD
-                </span>
-              </motion.div>
-            )}
-          </AnimatePresence>
-          <motion.button
-            style={{
-              backgroundColor:
-                isAnsweredPrice === "right"
-                  ? "#16a34a"
-                  : isAnsweredPrice === "wrong"
-                  ? "#dc2626"
-                  : "",
-            }}
-            disabled={isAnsweredPrice.length > 0}
-            onClick={handleCheckPrice}
-            whileTap={{ scale: 0.7 }}
-            className="w-8 h-8 flex items-center justify-center rounded-lg bg-yellow-600"
-          >
-            {isAnsweredPrice === "right" ? (
-              <BsCheck />
-            ) : isAnsweredPrice === "wrong" ? (
-              <MdClose />
-            ) : (
-              <RxCrosshair2 className="md:md:p-0.5" />
-            )}
-          </motion.button>
-        </div>
-      </div>
+
       <div className="flex gap-2 w-full px-4 md:px-0 md:w-[550px] text-base md:text-2xl items-center justify-between">
         <h3 className="flex gap-1 items-center">
           <span className="hidden md:block">Condition</span>
@@ -478,7 +375,110 @@ const GameBoard = ({
           </motion.button>
         </div>
       </div>
-
+      <div className="flex gap-2 w-full px-4 md:px-0 md:w-[550px] text-base md:text-2xl items-center justify-between">
+        <h3 className="flex gap-1 items-center">
+          <span className="hidden md:block">Price</span>
+          <div className="relative">
+            <AiFillQuestionCircle
+              onMouseOver={() => {
+                setIsHoveredPriceInfo(true);
+              }}
+              onMouseLeave={() => {
+                setIsHoveredPriceInfo(false);
+              }}
+              className="w-6 h-6"
+            />
+            <AnimatePresence>
+              {isHoveredPriceInfo && (
+                <motion.div
+                  initial={{ opacity: 0, y: -20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.2 }}
+                  exit={{ y: -20, opacity: 0 }}
+                  className="absolute bottom-8 left-0 w-64 bg-gray-900 border-[1px] rounded-md"
+                >
+                  <p className="text-white text-sm  p-1">
+                    This guess will increase or reduce your account balance by{" "}
+                    <span
+                      className="font-semibold"
+                      style={{ color: "#" + item.rarity_color }}
+                    >
+                      $1000
+                    </span>
+                    . Keep in mind that your guess has a slight margin of error
+                    (30%). Price is based on all-time average Steam price.
+                  </p>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+        </h3>
+        <div className="flex gap-2 w-full h-9 relative justify-end items-center ">
+          <AnimatePresence>
+            {isAnsweredPrice.length > 0 ? (
+              <motion.p
+                key={1}
+                animate={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0, y: 50 }}
+                transition={{ duration: 0.6 }}
+                exit={{ opacity: 0, y: -50 }}
+                className="flex items-center absolute right-10 h-9 text-base md:text-xl"
+              >
+                ${item.price}
+              </motion.p>
+            ) : (
+              <motion.div
+                animate={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0, y: -50 }}
+                transition={{ duration: 0.6 }}
+                exit={{ opacity: 0, y: 50 }}
+                key={2}
+                className="relative right-0  flex items-center h-9"
+              >
+                <input
+                  onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
+                    if (e.code === "Enter") {
+                      handleCheckPrice();
+                    }
+                  }}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                    if (!isNaN(parseFloat(e.target.value))) {
+                      setPriceValue(parseFloat(e.target.value));
+                    }
+                  }}
+                  placeholder={priceHint.length > 0 ? priceHint : "e.g. 10"}
+                  className="bg-[#0C1115] text-sm md:text-base pr-12 border-[1px] border-transparent  focus:border-gray-200/30 rounded-lg h-9 w-32 md:w-48 outline-none px-2"
+                ></input>
+                <span className="absolute pointer-events-none right-3 top-1/2 -translate-y-1/2 text-base">
+                  USD
+                </span>
+              </motion.div>
+            )}
+          </AnimatePresence>
+          <motion.button
+            style={{
+              backgroundColor:
+                isAnsweredPrice === "right"
+                  ? "#16a34a"
+                  : isAnsweredPrice === "wrong"
+                  ? "#dc2626"
+                  : "",
+            }}
+            disabled={isAnsweredPrice.length > 0}
+            onClick={handleCheckPrice}
+            whileTap={{ scale: 0.7 }}
+            className="w-8 h-8 flex items-center justify-center rounded-lg bg-yellow-600"
+          >
+            {isAnsweredPrice === "right" ? (
+              <BsCheck />
+            ) : isAnsweredPrice === "wrong" ? (
+              <MdClose />
+            ) : (
+              <RxCrosshair2 className="md:md:p-0.5" />
+            )}
+          </motion.button>
+        </div>
+      </div>
       <BottomPanel
         score={score}
         setScore={setScore}
@@ -494,7 +494,7 @@ const GameBoard = ({
       />
       <div
         style={{ backgroundColor: "#" + item.rarity_color }}
-        className="absolute top-0 left-0 w-full flex items-center px-4 md:px-10 justify-between h-20 rounded-t-2xl"
+        className="absolute top-0 left-0 w-full flex items-center px-4 md:px-10 justify-between h-16 rounded-t-2xl"
       >
         <span className="font-medium text-xl md:text-2xl text-gray-100">
           Round {currentRound + 1}
