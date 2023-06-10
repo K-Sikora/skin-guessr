@@ -50,9 +50,11 @@
 .menu {
   font-family: Counter-Strike;
 }
-body {
+.play {
   background-image: url("../../public/bg.jpg");
   background-position: center center;
   background-repeat: no-repeat;
+}
+body {
   font-family: DIN;
 }

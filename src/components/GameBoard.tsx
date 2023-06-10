@@ -7,7 +7,8 @@ import { BsCheck } from "react-icons/bs";
 import { RxCrosshair2 } from "react-icons/rx";
 import { MdClose } from "react-icons/md";
 import BottomPanel from "./GameBoard/BottomPanel";
-import { Howl, Howler } from "howler";
+import { Howl } from "howler";
+import { useVolume } from "@/context/context";
 import { Listbox } from "@headlessui/react";
 const conditions = [
   "Factory New",
@@ -44,13 +45,13 @@ const GameBoard = ({
   setInfoPopupVisible: React.Dispatch<React.SetStateAction<boolean>>;
   musicEnabled: number;
 }) => {
+  const { contextVolume, changeVolume } = useVolume();
   const guessSound = new Howl({
     src: ["./guessSound.mp3"],
     html5: true,
     preload: true,
-    volume: musicEnabled,
+    volume: contextVolume,
   });
-
   const [selectedCondition, setSelectedCondition] = useState(conditions[0]);
 
   const [hint, setHint] = useState("");
@@ -62,7 +63,6 @@ const GameBoard = ({
   const [isAnsweredCondition, setIsAnsweredCondition] = useState("");
   const [isAnsweredPrice, setIsAnsweredPrice] = useState("");
   const [nameValue, setNameValue] = useState("");
-  const [conditionValue, setConditionValue] = useState("");
   const [priceValue, setPriceValue] = useState(0);
   const handleCheckName = () => {
     if (nameValue.length > 0) {
@@ -141,7 +141,7 @@ const GameBoard = ({
 
   return (
     <div className="rounded-2xl relative w-11/12 h-full flex pt-16 items-center gap-6 justify-start flex-col bg-[#0C1115]/70 backdrop-blur-sm">
-      <div className="flex h-2/6 justify-center">
+      <div className="flex h-[40%] justify-center">
         <Image
           className="object-contain pointer-events-none"
           alt="skin image"

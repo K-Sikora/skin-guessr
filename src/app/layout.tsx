@@ -1,5 +1,5 @@
 import "./globals.css";
-
+import { VolumeProvider } from "@/context/context";
 export const metadata = {
   title: "Skin Guessr",
   description: "Skin Guessr game",
@@ -12,7 +12,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <VolumeProvider>{children}</VolumeProvider>
+      </body>
     </html>
   );
 }

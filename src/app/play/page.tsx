@@ -4,7 +4,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useQuery } from "react-query";
 import axios from "axios";
 import GameBoard from "@/components/GameBoard";
-import { RxSpeakerLoud, RxSpeakerOff, RxHome } from "react-icons/rx";
 import Link from "next/link";
 import Lottie from "lottie-react";
 import loading from "../../../public/loading.json";
@@ -76,7 +75,7 @@ const PlayPage: React.FC = () => {
   return (
     <>
       <Navbar />
-      <div className="w-full min-h-screen flex items-start justify-center relative py-4 container-bg">
+      <div className="w-full min-h-screen play flex items-center justify-center relative pt-24 pb-4 container-bg">
         {isLoading ? (
           <div className="rounded-2xl text-center text-2xl text-white w-3/4 h-[500px] flex items-center gap-6 justify-center flex-col bg-[#0C1115]/70 backdrop-blur-sm">
             Generating seed for your game...
@@ -116,7 +115,7 @@ const PlayPage: React.FC = () => {
                           musicEnabled={musicEnabled}
                         />
                       ) : (
-                        <div className="rounded-2xl w-11/12 h-[600px]  flex items-center gap-6 justify-center flex-col bg-[#0C1115]/70 backdrop-blur-sm">
+                        <div className="rounded-2xl w-11/12 h-[600px] flex items-center gap-6 justify-center flex-col bg-[#0C1115]/70 backdrop-blur-sm">
                           <h2 className="text-4xl text-red-400 font-bold">
                             You lost!
                           </h2>
@@ -165,16 +164,6 @@ const PlayPage: React.FC = () => {
             </AnimatePresence>
           </div>
         )}
-        {/* <button
-          onClick={() => setMusicEnabled(musicEnabled === 0 ? 1 : 0)}
-          className="absolute flex items-center justify-center left-1 bottom-1 z-20 w-12 h-12 bg-gray-900 rounded-xl"
-        >
-          {musicEnabled > 0 ? (
-            <RxSpeakerLoud className="text-white w-full h-full p-3" />
-          ) : (
-            <RxSpeakerOff className="text-white w-full h-full p-3" />
-          )}
-        </button> */}
       </div>
     </>
   );

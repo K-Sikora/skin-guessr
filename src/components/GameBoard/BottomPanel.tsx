@@ -153,7 +153,7 @@ const BottomPanel = ({
           }}
           className="flex items-center justify-center gap-2 font-medium bg-gradient-to-r from-green-500 to-green-600 w-48 h-10 rounded-xl"
         >
-          <span className="text-lg">
+          <span className="text-base">
             {notAnswered ? "Are you sure?" : "Next"}
           </span>
         </button>
