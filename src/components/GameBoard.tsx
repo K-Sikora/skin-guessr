@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import distance from "jaro-winkler";
@@ -33,7 +33,9 @@ const GameBoard = ({
   score,
   setScore,
   setInfoPopupVisible,
-  musicEnabled,
+  hintsEnabled,
+  priceGuessEnabled,
+  conditionGuessEnabled,
 }: {
   seed: Skin[];
   index: number;
@@ -43,8 +45,22 @@ const GameBoard = ({
   score: number;
   setScore: React.Dispatch<React.SetStateAction<number>>;
   setInfoPopupVisible: React.Dispatch<React.SetStateAction<boolean>>;
-  musicEnabled: number;
+  hintsEnabled: boolean;
+  priceGuessEnabled: boolean;
+  conditionGuessEnabled: boolean;
 }) => {
+  const [isDisabledAll, setIsDisabledAll] = useState(false);
+
+  useEffect(() => {
+    const localStorageDisabledAll =
+      window.localStorage.getItem("disableAllSound");
+    if (localStorageDisabledAll === "No") {
+      setIsDisabledAll(false);
+    } else {
+      setIsDisabledAll(true);
+    }
+  }, []);
+
   const { contextVolume, changeVolume } = useVolume();
   const guessSound = new Howl({
     src: ["./guessSound.mp3"],
@@ -86,43 +102,47 @@ const GameBoard = ({
   };
 
   const handleCheckCondition = () => {
-    guessSound.play();
+    if (conditionGuessEnabled) {
+      guessSound.play();
 
-    const onlyCondition = item.name.split("|")[1].trim().split("(")[1].trim();
-    console.log(
-      onlyCondition.substring(0, onlyCondition.length - 1).toLowerCase()
-    );
-    if (
-      distance(
-        selectedCondition.toLowerCase(),
+      const onlyCondition = item.name.split("|")[1].trim().split("(")[1].trim();
+      console.log(
         onlyCondition.substring(0, onlyCondition.length - 1).toLowerCase()
-      ) > 0.92
-    ) {
-      setScore((prev) => prev + 750);
-      setIsAnsweredCondition("right");
-    } else {
-      setIsAnsweredCondition("wrong");
-      setScore((prev) => prev - 750);
+      );
+      if (
+        distance(
+          selectedCondition.toLowerCase(),
+          onlyCondition.substring(0, onlyCondition.length - 1).toLowerCase()
+        ) > 0.92
+      ) {
+        setScore((prev) => prev + 750);
+        setIsAnsweredCondition("right");
+      } else {
+        setIsAnsweredCondition("wrong");
+        setScore((prev) => prev - 750);
+      }
     }
   };
   const handleCheckPrice = () => {
-    const actualPrice = item.price;
-    const userPrice = priceValue;
+    if (priceGuessEnabled) {
+      const actualPrice = item.price;
+      const userPrice = priceValue;
 
-    if (priceValue <= 0) {
-      setScore((prev) => prev);
-    } else {
-      guessSound.play();
-
-      const lowerBound = actualPrice - actualPrice * 0.3;
-      const upperBound = actualPrice + actualPrice * 0.3;
-
-      if (userPrice >= lowerBound && userPrice <= upperBound) {
-        setScore((prev) => prev + 1000);
-        setIsAnsweredPrice("right");
+      if (priceValue <= 0) {
+        setScore((prev) => prev);
       } else {
-        setIsAnsweredPrice("wrong");
-        setScore((prev) => prev - 1000);
+        guessSound.play();
+
+        const lowerBound = actualPrice - actualPrice * 0.3;
+        const upperBound = actualPrice + actualPrice * 0.3;
+
+        if (userPrice >= lowerBound && userPrice <= upperBound) {
+          setScore((prev) => prev + 1000);
+          setIsAnsweredPrice("right");
+        } else {
+          setIsAnsweredPrice("wrong");
+          setScore((prev) => prev - 1000);
+        }
       }
     }
   };
@@ -257,228 +277,234 @@ const GameBoard = ({
         </div>
       </div>
 
-      <div className="flex gap-2 w-full px-4 md:px-0 md:w-[550px] text-base md:text-2xl items-center justify-between">
-        <h3 className="flex gap-1 items-center">
-          <span className="hidden md:block">Condition</span>
-          <div className="relative">
-            <AiFillQuestionCircle
-              onMouseOver={() => {
-                setIsHoveredConditionInfo(true);
-              }}
-              onMouseLeave={() => {
-                setIsHoveredConditionInfo(false);
-              }}
-              className="w-6 h-6"
-            />
+      {conditionGuessEnabled && (
+        <div className="flex gap-2 w-full px-4 md:px-0 md:w-[550px] text-base md:text-2xl items-center justify-between">
+          <h3 className="flex gap-1 items-center">
+            <span className="hidden md:block">Condition</span>
+            <div className="relative">
+              <AiFillQuestionCircle
+                onMouseOver={() => {
+                  setIsHoveredConditionInfo(true);
+                }}
+                onMouseLeave={() => {
+                  setIsHoveredConditionInfo(false);
+                }}
+                className="w-6 h-6"
+              />
+              <AnimatePresence>
+                {isHoveredConditionInfo && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.2 }}
+                    exit={{ y: -20, opacity: 0 }}
+                    className="absolute bottom-8 left-0 w-64  bg-gray-900 border-[1px] rounded-md"
+                  >
+                    <p className="text-white text-sm  p-1">
+                      This guess will increase or reduce your account balance by{" "}
+                      <span
+                        className="font-semibold"
+                        style={{ color: "#" + item.rarity_color }}
+                      >
+                        $750
+                      </span>
+                      .
+                    </p>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          </h3>
+          <div className="flex gap-2 h-9 relative w-full justify-end items-center">
             <AnimatePresence>
-              {isHoveredConditionInfo && (
-                <motion.div
-                  initial={{ opacity: 0, y: -20 }}
+              {isAnsweredCondition.length > 0 ? (
+                <motion.p
+                  key={1}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.2 }}
-                  exit={{ y: -20, opacity: 0 }}
-                  className="absolute bottom-8 left-0 w-64  bg-gray-900 border-[1px] rounded-md"
+                  initial={{ opacity: 0, y: 50 }}
+                  transition={{ duration: 0.6 }}
+                  exit={{ opacity: 0, y: -50 }}
+                  className="h-9 absolute right-10 flex items-center text-base md:text-xl"
                 >
-                  <p className="text-white text-sm  p-1">
-                    This guess will increase or reduce your account balance by{" "}
-                    <span
-                      className="font-semibold"
-                      style={{ color: "#" + item.rarity_color }}
-                    >
-                      $750
-                    </span>
-                    .
-                  </p>
+                  {item.name
+                    .split("|")[1]
+                    .trim()
+                    .split("(")[1]
+                    .trim()
+                    .substring(
+                      0,
+                      item.name.split("|")[1].trim().split("(")[1].trim()
+                        .length - 1
+                    )}
+                </motion.p>
+              ) : (
+                <Listbox
+                  value={selectedCondition}
+                  onChange={setSelectedCondition}
+                >
+                  <Listbox.Button className="bg-[#0C1115] flex items-center justify-start absolute right-10 text-sm md:text-base rounded-lg h-9 w-32 md:w-48 outline-none px-2">
+                    {selectedCondition}
+                  </Listbox.Button>
+                  <Listbox.Options className="bg-gray-900 text-sm md:text-base rounded-lg flex flex-col absolute top-9 right-10 w-32 md:w-48 z-40">
+                    {conditions.map((condition, index) => (
+                      <Listbox.Option
+                        className="py-2 px-1 z-40 hover:bg-gray-600 duration-100 cursor-pointer last:rounded-b-lg first:rounded-t-lg"
+                        key={index}
+                        value={condition}
+                      >
+                        {({ selected }) => (
+                          <span
+                            className={`${
+                              selected ? "text-white" : "text-gray-200"
+                            } flex items-center pl-5 relative`}
+                          >
+                            {selected && (
+                              <div className="absolute left-0 top-0 h-full flex items-center">
+                                <AiOutlineCheck />
+                              </div>
+                            )}
+                            {condition}
+                          </span>
+                        )}
+                      </Listbox.Option>
+                    ))}
+                  </Listbox.Options>
+                </Listbox>
+              )}
+            </AnimatePresence>
+            <motion.button
+              style={{
+                backgroundColor:
+                  isAnsweredCondition === "right"
+                    ? "#16a34a"
+                    : isAnsweredCondition === "wrong"
+                    ? "#dc2626"
+                    : "",
+              }}
+              disabled={isAnsweredCondition.length > 0}
+              onClick={handleCheckCondition}
+              whileTap={{ scale: 0.7 }}
+              className="w-8 h-8 flex items-center justify-center rounded-lg bg-yellow-600"
+            >
+              {isAnsweredCondition === "right" ? (
+                <BsCheck />
+              ) : isAnsweredCondition === "wrong" ? (
+                <MdClose />
+              ) : (
+                <RxCrosshair2 className="md:p-0.5" />
+              )}
+            </motion.button>
+          </div>
+        </div>
+      )}
+      {priceGuessEnabled && (
+        <div className="flex gap-2 w-full px-4 md:px-0 md:w-[550px] text-base md:text-2xl items-center justify-between">
+          <h3 className="flex gap-1 items-center">
+            <span className="hidden md:block">Price</span>
+            <div className="relative">
+              <AiFillQuestionCircle
+                onMouseOver={() => {
+                  setIsHoveredPriceInfo(true);
+                }}
+                onMouseLeave={() => {
+                  setIsHoveredPriceInfo(false);
+                }}
+                className="w-6 h-6"
+              />
+              <AnimatePresence>
+                {isHoveredPriceInfo && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.2 }}
+                    exit={{ y: -20, opacity: 0 }}
+                    className="absolute bottom-8 left-0 w-64 bg-gray-900 border-[1px] rounded-md"
+                  >
+                    <p className="text-white text-sm  p-1">
+                      This guess will increase or reduce your account balance by{" "}
+                      <span
+                        className="font-semibold"
+                        style={{ color: "#" + item.rarity_color }}
+                      >
+                        $1000
+                      </span>
+                      . Keep in mind that your guess has a slight margin of
+                      error (30%). Price is based on all-time average Steam
+                      price.
+                    </p>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          </h3>
+          <div className="flex gap-2 w-full h-9 relative justify-end items-center ">
+            <AnimatePresence>
+              {isAnsweredPrice.length > 0 ? (
+                <motion.p
+                  key={1}
+                  animate={{ opacity: 1, y: 0 }}
+                  initial={{ opacity: 0, y: 50 }}
+                  transition={{ duration: 0.6 }}
+                  exit={{ opacity: 0, y: -50 }}
+                  className="flex items-center absolute right-10 h-9 text-base md:text-xl"
+                >
+                  ${item.price}
+                </motion.p>
+              ) : (
+                <motion.div
+                  animate={{ opacity: 1, y: 0 }}
+                  initial={{ opacity: 0, y: -50 }}
+                  transition={{ duration: 0.6 }}
+                  exit={{ opacity: 0, y: 50 }}
+                  key={2}
+                  className="relative right-0  flex items-center h-9"
+                >
+                  <input
+                    onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
+                      if (e.code === "Enter") {
+                        handleCheckPrice();
+                      }
+                    }}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                      if (!isNaN(parseFloat(e.target.value))) {
+                        setPriceValue(parseFloat(e.target.value));
+                      }
+                    }}
+                    placeholder={priceHint.length > 0 ? priceHint : "e.g. 10"}
+                    className="bg-[#0C1115] text-sm md:text-base pr-12 border-[1px] border-transparent  focus:border-gray-200/30 rounded-lg h-9 w-32 md:w-48 outline-none px-2"
+                  ></input>
+                  <span className="absolute pointer-events-none right-3 top-1/2 -translate-y-1/2 text-base">
+                    USD
+                  </span>
                 </motion.div>
               )}
             </AnimatePresence>
-          </div>
-        </h3>
-        <div className="flex gap-2 h-9 relative w-full justify-end items-center">
-          <AnimatePresence>
-            {isAnsweredCondition.length > 0 ? (
-              <motion.p
-                key={1}
-                animate={{ opacity: 1, y: 0 }}
-                initial={{ opacity: 0, y: 50 }}
-                transition={{ duration: 0.6 }}
-                exit={{ opacity: 0, y: -50 }}
-                className="h-9 absolute right-10 flex items-center text-base md:text-xl"
-              >
-                {item.name
-                  .split("|")[1]
-                  .trim()
-                  .split("(")[1]
-                  .trim()
-                  .substring(
-                    0,
-                    item.name.split("|")[1].trim().split("(")[1].trim().length -
-                      1
-                  )}
-              </motion.p>
-            ) : (
-              <Listbox
-                value={selectedCondition}
-                onChange={setSelectedCondition}
-              >
-                <Listbox.Button className="bg-[#0C1115] flex items-center justify-start absolute right-10 text-sm md:text-base rounded-lg h-9 w-32 md:w-48 outline-none px-2">
-                  {selectedCondition}
-                </Listbox.Button>
-                <Listbox.Options className="bg-gray-900 text-sm md:text-base rounded-lg flex flex-col absolute top-9 right-10 w-32 md:w-48 z-40">
-                  {conditions.map((condition, index) => (
-                    <Listbox.Option
-                      className="py-2 px-1 z-40 hover:bg-gray-600 duration-100 cursor-pointer last:rounded-b-lg first:rounded-t-lg"
-                      key={index}
-                      value={condition}
-                    >
-                      {({ selected }) => (
-                        <span
-                          className={`${
-                            selected ? "text-white" : "text-gray-200"
-                          } flex items-center pl-5 relative`}
-                        >
-                          {selected && (
-                            <div className="absolute left-0 top-0 h-full flex items-center">
-                              <AiOutlineCheck />
-                            </div>
-                          )}
-                          {condition}
-                        </span>
-                      )}
-                    </Listbox.Option>
-                  ))}
-                </Listbox.Options>
-              </Listbox>
-            )}
-          </AnimatePresence>
-          <motion.button
-            style={{
-              backgroundColor:
-                isAnsweredCondition === "right"
-                  ? "#16a34a"
-                  : isAnsweredCondition === "wrong"
-                  ? "#dc2626"
-                  : "",
-            }}
-            disabled={isAnsweredCondition.length > 0}
-            onClick={handleCheckCondition}
-            whileTap={{ scale: 0.7 }}
-            className="w-8 h-8 flex items-center justify-center rounded-lg bg-yellow-600"
-          >
-            {isAnsweredCondition === "right" ? (
-              <BsCheck />
-            ) : isAnsweredCondition === "wrong" ? (
-              <MdClose />
-            ) : (
-              <RxCrosshair2 className="md:p-0.5" />
-            )}
-          </motion.button>
-        </div>
-      </div>
-      <div className="flex gap-2 w-full px-4 md:px-0 md:w-[550px] text-base md:text-2xl items-center justify-between">
-        <h3 className="flex gap-1 items-center">
-          <span className="hidden md:block">Price</span>
-          <div className="relative">
-            <AiFillQuestionCircle
-              onMouseOver={() => {
-                setIsHoveredPriceInfo(true);
+            <motion.button
+              style={{
+                backgroundColor:
+                  isAnsweredPrice === "right"
+                    ? "#16a34a"
+                    : isAnsweredPrice === "wrong"
+                    ? "#dc2626"
+                    : "",
               }}
-              onMouseLeave={() => {
-                setIsHoveredPriceInfo(false);
-              }}
-              className="w-6 h-6"
-            />
-            <AnimatePresence>
-              {isHoveredPriceInfo && (
-                <motion.div
-                  initial={{ opacity: 0, y: -20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.2 }}
-                  exit={{ y: -20, opacity: 0 }}
-                  className="absolute bottom-8 left-0 w-64 bg-gray-900 border-[1px] rounded-md"
-                >
-                  <p className="text-white text-sm  p-1">
-                    This guess will increase or reduce your account balance by{" "}
-                    <span
-                      className="font-semibold"
-                      style={{ color: "#" + item.rarity_color }}
-                    >
-                      $1000
-                    </span>
-                    . Keep in mind that your guess has a slight margin of error
-                    (30%). Price is based on all-time average Steam price.
-                  </p>
-                </motion.div>
+              disabled={isAnsweredPrice.length > 0}
+              onClick={handleCheckPrice}
+              whileTap={{ scale: 0.7 }}
+              className="w-8 h-8 flex items-center justify-center rounded-lg bg-yellow-600"
+            >
+              {isAnsweredPrice === "right" ? (
+                <BsCheck />
+              ) : isAnsweredPrice === "wrong" ? (
+                <MdClose />
+              ) : (
+                <RxCrosshair2 className="md:md:p-0.5" />
               )}
-            </AnimatePresence>
+            </motion.button>
           </div>
-        </h3>
-        <div className="flex gap-2 w-full h-9 relative justify-end items-center ">
-          <AnimatePresence>
-            {isAnsweredPrice.length > 0 ? (
-              <motion.p
-                key={1}
-                animate={{ opacity: 1, y: 0 }}
-                initial={{ opacity: 0, y: 50 }}
-                transition={{ duration: 0.6 }}
-                exit={{ opacity: 0, y: -50 }}
-                className="flex items-center absolute right-10 h-9 text-base md:text-xl"
-              >
-                ${item.price}
-              </motion.p>
-            ) : (
-              <motion.div
-                animate={{ opacity: 1, y: 0 }}
-                initial={{ opacity: 0, y: -50 }}
-                transition={{ duration: 0.6 }}
-                exit={{ opacity: 0, y: 50 }}
-                key={2}
-                className="relative right-0  flex items-center h-9"
-              >
-                <input
-                  onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
-                    if (e.code === "Enter") {
-                      handleCheckPrice();
-                    }
-                  }}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                    if (!isNaN(parseFloat(e.target.value))) {
-                      setPriceValue(parseFloat(e.target.value));
-                    }
-                  }}
-                  placeholder={priceHint.length > 0 ? priceHint : "e.g. 10"}
-                  className="bg-[#0C1115] text-sm md:text-base pr-12 border-[1px] border-transparent  focus:border-gray-200/30 rounded-lg h-9 w-32 md:w-48 outline-none px-2"
-                ></input>
-                <span className="absolute pointer-events-none right-3 top-1/2 -translate-y-1/2 text-base">
-                  USD
-                </span>
-              </motion.div>
-            )}
-          </AnimatePresence>
-          <motion.button
-            style={{
-              backgroundColor:
-                isAnsweredPrice === "right"
-                  ? "#16a34a"
-                  : isAnsweredPrice === "wrong"
-                  ? "#dc2626"
-                  : "",
-            }}
-            disabled={isAnsweredPrice.length > 0}
-            onClick={handleCheckPrice}
-            whileTap={{ scale: 0.7 }}
-            className="w-8 h-8 flex items-center justify-center rounded-lg bg-yellow-600"
-          >
-            {isAnsweredPrice === "right" ? (
-              <BsCheck />
-            ) : isAnsweredPrice === "wrong" ? (
-              <MdClose />
-            ) : (
-              <RxCrosshair2 className="md:md:p-0.5" />
-            )}
-          </motion.button>
         </div>
-      </div>
+      )}
+
       <BottomPanel
         score={score}
         setScore={setScore}
@@ -491,6 +517,9 @@ const GameBoard = ({
         isAnsweredPrice={isAnsweredPrice}
         rarity_color={item.rarity_color}
         setInfoPopupVisible={setInfoPopupVisible}
+        hintsEnabled={hintsEnabled}
+        priceGuessEnabled={priceGuessEnabled}
+        conditionGuessEnabled={conditionGuessEnabled}
       />
       <div
         style={{ backgroundColor: "#" + item.rarity_color }}

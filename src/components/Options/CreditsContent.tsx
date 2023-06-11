@@ -23,7 +23,7 @@ const CreditsContent = ({
             <li className="border-b-[1px] last:border-none py-2 border-gray-300/30 flex w-full justify-between items-center">
               <p>Link</p>
               <Link href="https://csgobackpack.net/api/">
-                csgobackpack.net/api/
+                csgobackpack.net/api
               </Link>
             </li>
           </ul>

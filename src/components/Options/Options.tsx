@@ -5,10 +5,16 @@ import OptionsContent from "./OptionsContent";
 import CreditsContent from "./CreditsContent";
 const Options = ({
   setOptionsVisible,
+  setIsBackgroundEnabled,
+  openCredits,
 }: {
   setOptionsVisible: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsBackgroundEnabled: React.Dispatch<React.SetStateAction<boolean>>;
+  openCredits: boolean;
 }) => {
-  const [selectedCategoryIndex, setSelectedCategoryIndex] = useState(0);
+  const [selectedCategoryIndex, setSelectedCategoryIndex] = useState(
+    openCredits ? 1 : 0
+  );
   const [selectedOptionIndex, setSelectedOptionIndex] = useState(0);
   const [selectedCreditIndex, setSelectedCreditIndex] = useState(0);
   return (
@@ -61,7 +67,7 @@ const Options = ({
                       ? "2px solid white"
                       : "2px solid transparent",
                 }}
-                className="pb-1 cursor-pointer"
+                className="md:pb-1 cursor-pointer"
               >
                 Game
               </li>
@@ -73,7 +79,7 @@ const Options = ({
                       ? "2px solid white"
                       : "2px solid transparent",
                 }}
-                className="pb-1 cursor-pointer"
+                className="md:pb-1 cursor-pointer"
               >
                 Sound
               </li>
@@ -85,7 +91,7 @@ const Options = ({
                       ? "2px solid white"
                       : "2px solid transparent",
                 }}
-                className="pb-1 cursor-pointer"
+                className="md:pb-1 cursor-pointer"
               >
                 Video
               </li>
@@ -100,7 +106,7 @@ const Options = ({
                       : "2px solid transparent",
                 }}
                 onClick={() => setSelectedCreditIndex(0)}
-                className="pb-1 cursor-pointer"
+                className="md:pb-1 cursor-pointer"
               >
                 API
               </li>
@@ -112,7 +118,7 @@ const Options = ({
                       : "2px solid transparent",
                 }}
                 onClick={() => setSelectedCreditIndex(1)}
-                className="pb-1 cursor-pointer"
+                className="md:pb-1 cursor-pointer"
               >
                 Graphic elements
               </li>
@@ -122,7 +128,10 @@ const Options = ({
         <div className="w-full h-full backdrop-blur-xl bg-black/20 overflow-y-auto">
           <div className="max-w-3xl px-2 lg:px-0 mx-auto h-full pt-8">
             {selectedCategoryIndex === 0 ? (
-              <OptionsContent selectedOptionIndex={selectedOptionIndex} />
+              <OptionsContent
+                setIsBackgroundEnabled={setIsBackgroundEnabled}
+                selectedOptionIndex={selectedOptionIndex}
+              />
             ) : (
               <CreditsContent selectedCreditIndex={selectedCreditIndex} />
             )}
