@@ -114,7 +114,7 @@ const PlayPage: React.FC = () => {
       <Navbar />
       <div className="w-full min-h-screen play flex items-center justify-center relative pt-24 pb-4 container-bg">
         {isLoading ? (
-          <div className="rounded-2xl text-center text-2xl text-white w-3/4 h-[500px] flex items-center gap-6 justify-center flex-col bg-[#0C1115]/70 backdrop-blur-sm">
+          <div className="rounded-2xl max-w-5xl text-center text-2xl text-white w-3/4 h-[500px] flex items-center gap-6 justify-center flex-col bg-[#0C1115]/70 backdrop-blur-sm">
             Generating seed for your game...
             <div className="w-40 h-40 ">
               <Lottie

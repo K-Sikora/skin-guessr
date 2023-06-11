@@ -3,6 +3,7 @@ import { IoIosHelpBuoy } from "react-icons/io";
 import { BsQuestionLg } from "react-icons/bs";
 import { FaDollarSign } from "react-icons/fa";
 import { TbLetterCase } from "react-icons/tb";
+import { useVolume } from "@/context/context";
 import { motion, AnimatePresence } from "framer-motion";
 import { Howl } from "howler";
 const BottomPanel = ({
@@ -32,9 +33,11 @@ const BottomPanel = ({
   priceGuessEnabled: boolean;
   conditionGuessEnabled: boolean;
 }) => {
+  const { contextVolume } = useVolume();
   const respawn = new Howl({
     src: "./respawn.wav",
     html5: true,
+    volume: contextVolume,
   });
   const [notAnswered, setNotAnswered] = useState(false);
   const [nameHintMenuVisible, setNameHintMenuVisible] = useState(false);

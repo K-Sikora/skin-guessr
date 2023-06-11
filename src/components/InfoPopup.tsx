@@ -11,7 +11,7 @@ const InfoPopup = ({
         initial={{ scale: 0 }}
         animate={{ scale: 1 }}
         transition={{ duration: 0.3 }}
-        className=" w-11/12 bg-gray-900 rounded-xl p-3 md:p-4 text-sm md:text-lg flex flex-col justify-between"
+        className=" w-11/12 bg-gray-900 max-w-5xl rounded-xl p-3 md:p-4 text-sm md:text-lg flex flex-col justify-between"
       >
         <ul className="list-disc list-inside mb-4">
           <h3 className="text-center text-lg md:text-2xl mb-4">

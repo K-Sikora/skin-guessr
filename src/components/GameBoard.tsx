@@ -8,6 +8,7 @@ import { RxCrosshair2 } from "react-icons/rx";
 import { MdClose } from "react-icons/md";
 import BottomPanel from "./GameBoard/BottomPanel";
 import { Howl } from "howler";
+
 import { useVolume } from "@/context/context";
 import { Listbox } from "@headlessui/react";
 const conditions = [
@@ -45,18 +46,6 @@ const GameBoard = ({
   priceGuessEnabled: boolean;
   conditionGuessEnabled: boolean;
 }) => {
-  const [isDisabledAll, setIsDisabledAll] = useState(false);
-
-  useEffect(() => {
-    const localStorageDisabledAll =
-      window.localStorage.getItem("disableAllSound");
-    if (localStorageDisabledAll === "No") {
-      setIsDisabledAll(false);
-    } else {
-      setIsDisabledAll(true);
-    }
-  }, []);
-
   const { contextVolume, changeVolume } = useVolume();
   const guessSound = new Howl({
     src: ["./guessSound.mp3"],

@@ -1,14 +1,17 @@
 import Link from "next/link";
 import React from "react";
 import { Howl } from "howler";
+import { useVolume } from "@/context/context";
 const CreditsContent = ({
   selectedCreditIndex,
 }: {
   selectedCreditIndex: number;
 }) => {
+  const { contextVolume } = useVolume();
   const hoverSound = new Howl({
     src: "./hover.mp3",
     html5: true,
+    volume: contextVolume,
   });
   return (
     <div className="flex flex-col gap-8 md:gap-12 pb-8">
@@ -47,7 +50,7 @@ const CreditsContent = ({
             </li>
           </ul>
         </>
-      ) : (
+      ) : selectedCreditIndex === 1 ? (
         <>
           <h4 className="md:text-2xl font-semibold">Graphic elements</h4>
           <ul className="flex text-sm md:text-lg font-medium flex-col gap-5">
@@ -150,6 +153,71 @@ const CreditsContent = ({
               <Link href="https://betterstudio.com/fonts/steam-font/">
                 betterstudio.com
               </Link>
+            </li>
+          </ul>
+        </>
+      ) : (
+        <>
+          <h4 className="md:text-2xl font-semibold">Audio elements</h4>
+          <ul className="flex text-sm md:text-lg font-medium flex-col gap-5">
+            <li
+              onMouseEnter={() => {
+                hoverSound.play();
+              }}
+              className="border-b-[1px] last:border-none py-2 border-gray-300/30 flex w-full justify-between items-center"
+            >
+              <p>Music</p>
+              <p>Crystals, CS:GO Soundtrack</p>
+            </li>
+            <li
+              onMouseEnter={() => {
+                hoverSound.play();
+              }}
+              className="border-b-[1px] last:border-none py-2 border-gray-300/30 flex w-full justify-between items-center"
+            >
+              <p>Authors</p>
+              <p>M.O.O.N., Valve</p>
+            </li>
+            <li
+              onMouseEnter={() => {
+                hoverSound.play();
+              }}
+              className="border-b-[1px] last:border-none py-2 border-gray-300/30 flex w-full justify-between items-center"
+            >
+              <p>Link</p>
+
+              <p>
+                <Link href="https://www.youtube.com/watch?v=QXkSYSPTpj4">
+                  Crystals
+                </Link>
+                ,{" "}
+                <Link href="https://www.youtube.com/playlist?list=PL18EB738386659D78">
+                  CS:GO Soundtrack
+                </Link>
+              </p>
+            </li>
+          </ul>
+          <ul className="flex text-sm md:text-lg font-medium flex-col gap-5">
+            <li
+              onMouseEnter={() => {
+                hoverSound.play();
+              }}
+              className="border-b-[1px] last:border-none py-2 border-gray-300/30 flex w-full justify-between items-center"
+            >
+              <p>Menu sounds</p>
+              <p>Counter-Strike 2</p>
+            </li>
+          </ul>
+
+          <ul className="flex text-sm md:text-lg font-medium flex-col gap-5">
+            <li
+              onMouseEnter={() => {
+                hoverSound.play();
+              }}
+              className="border-b-[1px] last:border-none py-2 border-gray-300/30 flex w-full justify-between items-center"
+            >
+              <p>Game sounds</p>
+              <p>CS:GO</p>
             </li>
           </ul>
         </>

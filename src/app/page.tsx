@@ -4,9 +4,12 @@ import React, { useState, useEffect } from "react";
 import { AnimatePresence } from "framer-motion";
 import { Howl } from "howler";
 import Link from "next/link";
+import { useVolume } from "@/context/context";
+
 import Navbar from "@/components/Navbar";
 import Options from "@/components/Options/Options";
 const Homepage: React.FC = () => {
+  const { contextVolume } = useVolume();
   const [optionsVisible, setOptionsVisible] = useState(false);
   const [openCredits, setOpenCredits] = useState(false);
   const [isBackgroundEnabled, setIsBackgroundEnabled] = useState(true);
@@ -23,6 +26,7 @@ const Homepage: React.FC = () => {
   const clickSound2 = new Howl({
     src: "./click2.mp3",
     html5: true,
+    volume: contextVolume,
   });
   return (
     <>

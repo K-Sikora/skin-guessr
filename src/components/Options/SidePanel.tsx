@@ -1,6 +1,7 @@
 import React from "react";
 import { AiFillPlayCircle, AiFillSetting } from "react-icons/ai";
 import { MdCancel, MdInfo } from "react-icons/md";
+import { useVolume } from "@/context/context";
 import Link from "next/link";
 import { Howl } from "howler";
 const SidePanel = ({
@@ -12,9 +13,11 @@ const SidePanel = ({
   setSelectedCategoryIndex: React.Dispatch<React.SetStateAction<number>>;
   setOptionsVisible: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
+  const { contextVolume } = useVolume();
   const clickSound2 = new Howl({
     src: "./click2.mp3",
     html5: true,
+    volume: contextVolume,
   });
 
   return (

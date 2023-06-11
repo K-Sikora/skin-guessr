@@ -58,9 +58,7 @@ const OptionsContent = ({
   const [selectedHintsOption, setSelectedHintsOption] = useState(
     hintsOptions[0]
   );
-  const [selectedDisableOption, setSelectedDisabledOption] = useState(
-    soundOptions[1]
-  );
+
   const [selectedMoneyOption, setSelectedMoneyOption] = useState(
     moneyOptions[3]
   );
@@ -109,13 +107,7 @@ const OptionsContent = ({
           : conditionGuessOptions[1]
       );
     }
-    const localStorageDisableAll =
-      window.localStorage.getItem("disableAllSound");
-    if (localStorageDisableAll) {
-      setSelectedDisabledOption(
-        localStorageDisableAll === "No" ? soundOptions[1] : soundOptions[0]
-      );
-    }
+
     const localStorageBackgroundOption = window.localStorage.getItem(
       "backgroundVideoOption"
     );
@@ -158,12 +150,11 @@ const OptionsContent = ({
     selectedConditionGuess,
     backgroundVideoOption,
   ]);
-  useEffect(() => {
-    window.localStorage.setItem("disableAllSound", selectedDisableOption);
-  }, [selectedDisableOption]);
+
   const hoverSound = new Howl({
     src: "./hover.mp3",
     html5: true,
+    volume: contextVolume,
   });
 
   return (
@@ -390,44 +381,6 @@ const OptionsContent = ({
                 <span className="border-2 rounded-lg border-gray-300/50 py-0.5 w-16 flex items-center justify-center text-sm font-bold">
                   {contextMusicVolume}
                 </span>
-              </div>
-            </li>
-            <li
-              onMouseEnter={() => {
-                hoverSound.play();
-              }}
-              className="border-b-[1px] last:border-none py-2 border-gray-300/30 flex w-full justify-between items-center"
-            >
-              <p>Disable all</p>
-              <div className="relative">
-                <Listbox
-                  value={selectedDisableOption}
-                  onChange={setSelectedDisabledOption}
-                >
-                  <Listbox.Button className="md:text-lg flex items-center justify-end rounded-lg  h-9 outline-none px-2">
-                    {selectedDisableOption}
-                    <BiChevronDown className="text-xl" />
-                  </Listbox.Button>
-                  <Listbox.Options className="text-base font-medium flex bg-gradient-to-r from-gray-950 to-gray-900 rounded-xl items-start right-0  flex-col absolute top-9 z-40">
-                    {soundOptions.map((option, index) => (
-                      <Listbox.Option
-                        className="py-3 hover:bg-gray-800 w-full first:rounded-t-xl last:rounded-b-xl px-4 z-40 cursor-pointer"
-                        key={index}
-                        value={option}
-                      >
-                        {({ selected }) => (
-                          <span
-                            className={`${
-                              selected ? "text-white" : "text-gray-200"
-                            } flex items-center`}
-                          >
-                            {option}
-                          </span>
-                        )}
-                      </Listbox.Option>
-                    ))}
-                  </Listbox.Options>
-                </Listbox>
               </div>
             </li>
           </ul>

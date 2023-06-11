@@ -18,7 +18,6 @@ const musicArray = [
 ];
 const Navbar = () => {
   const [currentlyPlaying, setCurrentlyPlaying] = useState(0);
-  const [isDisabledAll, setIsDisabledAll] = useState(false);
   const { contextVolume, changeVolume, contextMusicVolume, changeMusicVolume } =
     useVolume();
 
@@ -66,15 +65,6 @@ const Navbar = () => {
         return "STOP";
     }
   }
-  useEffect(() => {
-    const localStorageDisabledAll =
-      window.localStorage.getItem("disableAllSound");
-    if (localStorageDisabledAll === "Yes") {
-      setIsDisabledAll(true);
-    } else {
-      setIsDisabledAll(false);
-    }
-  }, []);
 
   return (
     <header className="px-4 md:px-8 h-24 flex items-center justify-between bg-gradient-to-b from-gray-950 -mt-24 sticky top-0 left-0 z-50 to-gray-950/0">
@@ -105,16 +95,14 @@ const Navbar = () => {
           </motion.div>
         </Link>
       </div>
-      {!isDisabledAll && (
-        <Sound
-          onFinishedPlaying={() => {
-            setCurrentlyPlaying((prev) => prev + 1);
-          }}
-          url={musicArray[currentlyPlaying]}
-          playStatus={status}
-          volume={contextMusicVolume * 100}
-        />
-      )}
+      <Sound
+        onFinishedPlaying={() => {
+          setCurrentlyPlaying((prev) => prev + 1);
+        }}
+        url={musicArray[currentlyPlaying]}
+        playStatus={status}
+        volume={contextMusicVolume * 100}
+      />
     </header>
   );
 };

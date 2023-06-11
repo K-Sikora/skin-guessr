@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import SidePanel from "./SidePanel";
 import OptionsContent from "./OptionsContent";
 import CreditsContent from "./CreditsContent";
+import { useVolume } from "@/context/context";
 import { Howl } from "howler";
 const Options = ({
   setOptionsVisible,
@@ -13,6 +14,7 @@ const Options = ({
   setIsBackgroundEnabled: React.Dispatch<React.SetStateAction<boolean>>;
   openCredits: boolean;
 }) => {
+  const { contextVolume } = useVolume();
   const [selectedCategoryIndex, setSelectedCategoryIndex] = useState(
     openCredits ? 1 : 0
   );
@@ -21,10 +23,12 @@ const Options = ({
   const clickSound2 = new Howl({
     src: "./click2.mp3",
     html5: true,
+    volume: contextVolume,
   });
   const clickSound = new Howl({
     src: "./click.mp3",
     html5: true,
+    volume: contextVolume,
   });
   return (
     <motion.div
@@ -150,7 +154,22 @@ const Options = ({
                 }}
                 className="md:pb-1 cursor-pointer"
               >
-                Graphic elements
+                Graphics
+              </li>
+              <li
+                style={{
+                  borderBottom:
+                    selectedCreditIndex === 2
+                      ? "2px solid white"
+                      : "2px solid transparent",
+                }}
+                onClick={() => {
+                  setSelectedCreditIndex(2);
+                  clickSound.play();
+                }}
+                className="md:pb-1 cursor-pointer"
+              >
+                Audio
               </li>
             </ul>
           )}
