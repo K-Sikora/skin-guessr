@@ -17,7 +17,6 @@ const musicArray = [
   "https://firebasestorage.googleapis.com/v0/b/icon-finder-91d39.appspot.com/o/mp3%2FCounter-Strike%20Global%20Offensive%20Soundtrack%20-%20Black%20Market%20Guns.mp3?alt=media&token=1b854bf3-9804-458f-af5e-7a181639aa7d",
 ];
 const Navbar = () => {
-  const [playing, setPlaying] = useState(false);
   const [currentlyPlaying, setCurrentlyPlaying] = useState(0);
   const [isDisabledAll, setIsDisabledAll] = useState(false);
   const { contextVolume, changeVolume, contextMusicVolume, changeMusicVolume } =
@@ -85,7 +84,7 @@ const Navbar = () => {
           className="w-16"
         ></img>
       </Link>
-      <div className="flex items-center justify-center gap-6 py-3 px-6 bg-gradient-to-r from-gray-800 to-gray-900 rounded-full">
+      <div className="flex items-center justify-center gap-6 py-3 px-6 bg-gradient-to-r backdrop-blur-sm from-gray-800/10 to-gray-900/10 rounded-full">
         <motion.button onClick={handleChangeVolume}>
           {contextVolume > 0 ? (
             <RxSpeakerLoud className="text-white h-6 w-6" />

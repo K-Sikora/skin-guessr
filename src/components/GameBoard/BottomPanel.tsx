@@ -4,16 +4,15 @@ import { BsQuestionLg } from "react-icons/bs";
 import { FaDollarSign } from "react-icons/fa";
 import { TbLetterCase } from "react-icons/tb";
 import { motion, AnimatePresence } from "framer-motion";
+import { Howl } from "howler";
 const BottomPanel = ({
   setCurrentRound,
-  index,
   handleShowHint,
   handleShowPriceHint,
   isAnsweredName,
   isAnsweredCondition,
   isAnsweredPrice,
   rarity_color,
-  score,
   setScore,
   setInfoPopupVisible,
   hintsEnabled,
@@ -21,20 +20,22 @@ const BottomPanel = ({
   conditionGuessEnabled,
 }: {
   setCurrentRound: React.Dispatch<React.SetStateAction<number>>;
-  index: number;
   handleShowHint: Function;
   handleShowPriceHint: Function;
   isAnsweredName: string;
   isAnsweredCondition: string;
   isAnsweredPrice: string;
   rarity_color: string;
-  score: number;
   setScore: React.Dispatch<React.SetStateAction<number>>;
   setInfoPopupVisible: React.Dispatch<React.SetStateAction<boolean>>;
   hintsEnabled: boolean;
   priceGuessEnabled: boolean;
   conditionGuessEnabled: boolean;
 }) => {
+  const respawn = new Howl({
+    src: "./respawn.wav",
+    html5: true,
+  });
   const [notAnswered, setNotAnswered] = useState(false);
   const [nameHintMenuVisible, setNameHintMenuVisible] = useState(false);
   const [priceHintMenuVisible, setPriceHintMenuVisible] = useState(false);
@@ -158,6 +159,7 @@ const BottomPanel = ({
                     setScore((prev) => prev - 750);
                   }
                 }
+                respawn.play();
               }
               setCurrentRound((prev) => prev + 1);
             } else {

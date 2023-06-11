@@ -25,8 +25,6 @@ type Skin = {
   price: number;
 };
 const GameBoard = ({
-  seed,
-  index,
   currentRound,
   setCurrentRound,
   item,
@@ -37,8 +35,6 @@ const GameBoard = ({
   priceGuessEnabled,
   conditionGuessEnabled,
 }: {
-  seed: Skin[];
-  index: number;
   currentRound: number;
   setCurrentRound: React.Dispatch<React.SetStateAction<number>>;
   item: Skin;
@@ -106,9 +102,7 @@ const GameBoard = ({
       guessSound.play();
 
       const onlyCondition = item.name.split("|")[1].trim().split("(")[1].trim();
-      console.log(
-        onlyCondition.substring(0, onlyCondition.length - 1).toLowerCase()
-      );
+
       if (
         distance(
           selectedCondition.toLowerCase(),
@@ -160,7 +154,7 @@ const GameBoard = ({
   };
 
   return (
-    <div className="rounded-2xl relative w-11/12 h-full flex pt-16 items-center gap-6 justify-start flex-col bg-[#0C1115]/70 backdrop-blur-sm">
+    <div className="rounded-2xl relative w-11/12 max-w-6xl h-full flex pt-16 items-center gap-6 justify-start flex-col bg-[#0C1115]/70 backdrop-blur-sm">
       <div className="flex h-[40%] justify-center">
         <Image
           className="object-contain pointer-events-none"
@@ -506,10 +500,8 @@ const GameBoard = ({
       )}
 
       <BottomPanel
-        score={score}
         setScore={setScore}
         setCurrentRound={setCurrentRound}
-        index={index}
         handleShowHint={handleShowHint}
         handleShowPriceHint={handleShowPriceHint}
         isAnsweredName={isAnsweredName}

@@ -4,6 +4,7 @@ import "rc-slider/assets/index.css";
 import { Listbox } from "@headlessui/react";
 import { BiChevronDown } from "react-icons/bi";
 import { useVolume } from "@/context/context";
+import { Howl } from "howler";
 const OptionsContent = ({
   selectedOptionIndex,
   setIsBackgroundEnabled,
@@ -160,6 +161,10 @@ const OptionsContent = ({
   useEffect(() => {
     window.localStorage.setItem("disableAllSound", selectedDisableOption);
   }, [selectedDisableOption]);
+  const hoverSound = new Howl({
+    src: "./hover.mp3",
+    html5: true,
+  });
 
   return (
     <div className="flex flex-col gap-8 md:gap-12 pb-8">
@@ -167,7 +172,12 @@ const OptionsContent = ({
         <>
           <h4 className="text-lg md:text-2xl font-semibold">Game</h4>
           <ul className="flex text-sm md:text-lg font-medium flex-col gap-5">
-            <li className="border-b-[1px] last:border-none py-2 border-gray-300/30 flex w-full justify-between items-center">
+            <li
+              onMouseEnter={() => {
+                hoverSound.play();
+              }}
+              className="border-b-[1px] last:border-none py-2 border-gray-300/30 flex w-full justify-between items-center"
+            >
               <p>Starting money</p>
               <div className="relative">
                 <Listbox
@@ -200,7 +210,12 @@ const OptionsContent = ({
                 </Listbox>
               </div>
             </li>
-            <li className="border-b-[1px] last:border-none py-2 border-gray-300/30 flex w-full justify-between items-center">
+            <li
+              onMouseEnter={() => {
+                hoverSound.play();
+              }}
+              className="border-b-[1px] last:border-none py-2 border-gray-300/30 flex w-full justify-between items-center"
+            >
               <p>Hints</p>
               <div className="relative">
                 <Listbox
@@ -233,7 +248,12 @@ const OptionsContent = ({
                 </Listbox>
               </div>
             </li>
-            <li className="border-b-[1px] last:border-none py-2 border-gray-300/30 flex w-full justify-between items-center">
+            <li
+              onMouseEnter={() => {
+                hoverSound.play();
+              }}
+              className="border-b-[1px] last:border-none py-2 border-gray-300/30 flex w-full justify-between items-center"
+            >
               <p>Price guess</p>
               <div className="relative">
                 <Listbox
@@ -266,7 +286,12 @@ const OptionsContent = ({
                 </Listbox>
               </div>
             </li>
-            <li className="border-b-[1px] last:border-none py-2 border-gray-300/30 flex w-full justify-between items-center">
+            <li
+              onMouseEnter={() => {
+                hoverSound.play();
+              }}
+              className="border-b-[1px] last:border-none py-2 border-gray-300/30 flex w-full justify-between items-center"
+            >
               <p>Condition guess</p>
               <div className="relative">
                 <Listbox
@@ -305,7 +330,12 @@ const OptionsContent = ({
         <>
           <h4 className="text-lg md:text-2xl font-semibold">Sound</h4>
           <ul className="flex text-sm md:text-lg font-medium flex-col gap-5">
-            <li className="border-b-[1px] last:border-none py-2 border-gray-300/30 flex w-full justify-between items-center">
+            <li
+              onMouseEnter={() => {
+                hoverSound.play();
+              }}
+              className="border-b-[1px] last:border-none py-2 border-gray-300/30 flex w-full justify-between items-center"
+            >
               <p>Effects</p>
               <div className="w-1/2 flex items-center gap-6">
                 <Slider
@@ -331,7 +361,12 @@ const OptionsContent = ({
                 </span>
               </div>
             </li>
-            <li className="border-b-[1px] last:border-none py-2 border-gray-300/30 flex w-full justify-between items-center">
+            <li
+              onMouseEnter={() => {
+                hoverSound.play();
+              }}
+              className="border-b-[1px] last:border-none py-2 border-gray-300/30 flex w-full justify-between items-center"
+            >
               <p>Music</p>
               <div className="w-1/2 flex items-center gap-6">
                 <Slider
@@ -357,7 +392,12 @@ const OptionsContent = ({
                 </span>
               </div>
             </li>
-            <li className="border-b-[1px] last:border-none py-2 border-gray-300/30 flex w-full justify-between items-center">
+            <li
+              onMouseEnter={() => {
+                hoverSound.play();
+              }}
+              className="border-b-[1px] last:border-none py-2 border-gray-300/30 flex w-full justify-between items-center"
+            >
               <p>Disable all</p>
               <div className="relative">
                 <Listbox
@@ -396,7 +436,12 @@ const OptionsContent = ({
         <>
           <h4 className="text-lg md:text-2xl font-semibold">Video</h4>
           <ul className="flex text-sm md:text-lg font-medium flex-col gap-5">
-            <li className="border-b-[1px] last:border-none py-2 border-gray-300/30 flex w-full justify-between items-center">
+            <li
+              onMouseEnter={() => {
+                hoverSound.play();
+              }}
+              className="border-b-[1px] last:border-none py-2 border-gray-300/30 flex w-full justify-between items-center"
+            >
               <p>Background video</p>
               <div className="relative">
                 <Listbox

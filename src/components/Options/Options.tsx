@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import SidePanel from "./SidePanel";
 import OptionsContent from "./OptionsContent";
 import CreditsContent from "./CreditsContent";
+import { Howl } from "howler";
 const Options = ({
   setOptionsVisible,
   setIsBackgroundEnabled,
@@ -17,6 +18,14 @@ const Options = ({
   );
   const [selectedOptionIndex, setSelectedOptionIndex] = useState(0);
   const [selectedCreditIndex, setSelectedCreditIndex] = useState(0);
+  const clickSound2 = new Howl({
+    src: "./click2.mp3",
+    html5: true,
+  });
+  const clickSound = new Howl({
+    src: "./click.mp3",
+    html5: true,
+  });
   return (
     <motion.div
       animate={{ opacity: 1 }}
@@ -38,7 +47,10 @@ const Options = ({
                   ? "3px solid white"
                   : "3px solid transparent",
             }}
-            onClick={() => setSelectedCategoryIndex(0)}
+            onClick={() => {
+              setSelectedCategoryIndex(0);
+              clickSound2.play();
+            }}
             className="md:text-2xl font-bold uppercase cursor-pointer pb-1"
           >
             Settings
@@ -50,7 +62,10 @@ const Options = ({
                   ? "3px solid white"
                   : "3px solid transparent",
             }}
-            onClick={() => setSelectedCategoryIndex(1)}
+            onClick={() => {
+              setSelectedCategoryIndex(1);
+              clickSound2.play();
+            }}
             className="md:text-2xl font-bold uppercase cursor-pointer pb-1"
           >
             Credits
@@ -60,7 +75,10 @@ const Options = ({
           {selectedCategoryIndex === 0 ? (
             <ul className="flex gap-4 md:gap-9 font-medium text-lg">
               <li
-                onClick={() => setSelectedOptionIndex(0)}
+                onClick={() => {
+                  setSelectedOptionIndex(0);
+                  clickSound.play();
+                }}
                 style={{
                   borderBottom:
                     selectedOptionIndex === 0
@@ -72,7 +90,10 @@ const Options = ({
                 Game
               </li>
               <li
-                onClick={() => setSelectedOptionIndex(1)}
+                onClick={() => {
+                  setSelectedOptionIndex(1);
+                  clickSound.play();
+                }}
                 style={{
                   borderBottom:
                     selectedOptionIndex === 1
@@ -84,7 +105,10 @@ const Options = ({
                 Sound
               </li>
               <li
-                onClick={() => setSelectedOptionIndex(2)}
+                onClick={() => {
+                  setSelectedOptionIndex(2);
+                  clickSound.play();
+                }}
                 style={{
                   borderBottom:
                     selectedOptionIndex === 2
@@ -105,7 +129,10 @@ const Options = ({
                       ? "2px solid white"
                       : "2px solid transparent",
                 }}
-                onClick={() => setSelectedCreditIndex(0)}
+                onClick={() => {
+                  setSelectedCreditIndex(0);
+                  clickSound.play();
+                }}
                 className="md:pb-1 cursor-pointer"
               >
                 API
@@ -117,7 +144,10 @@ const Options = ({
                       ? "2px solid white"
                       : "2px solid transparent",
                 }}
-                onClick={() => setSelectedCreditIndex(1)}
+                onClick={() => {
+                  setSelectedCreditIndex(1);
+                  clickSound.play();
+                }}
                 className="md:pb-1 cursor-pointer"
               >
                 Graphic elements

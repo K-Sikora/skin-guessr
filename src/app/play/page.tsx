@@ -49,11 +49,7 @@ const PlayPage: React.FC = () => {
     queryFn: getItems,
     refetchOnWindowFocus: false,
   });
-  useEffect(() => {
-    if (seed.length > 0) {
-      console.log(seed);
-    }
-  }, [seed]);
+
   useEffect(() => {
     const storedBestScore = localStorage.getItem("bestScore");
     if (storedBestScore === null) {
@@ -61,7 +57,6 @@ const PlayPage: React.FC = () => {
     } else {
       setBestScore(parseInt(storedBestScore));
     }
-    console.log(bestScore);
     if (bestScore !== null && currentRound > bestScore) {
       window.localStorage.setItem("bestScore", currentRound.toString());
     }
@@ -98,7 +93,6 @@ const PlayPage: React.FC = () => {
       "selectedMoneyOption"
     );
     if (localStorageMoneyOption) {
-      console.log(localStorageMoneyOption);
       setScore(
         localStorageMoneyOption === "0"
           ? 2000
@@ -147,11 +141,9 @@ const PlayPage: React.FC = () => {
                     >
                       {score >= 0 ? (
                         <GameBoard
-                          seed={seed}
                           score={score}
                           setScore={setScore}
                           item={item}
-                          index={index}
                           currentRound={currentRound}
                           setCurrentRound={setCurrentRound}
                           setInfoPopupVisible={setInfoPopupVisible}
