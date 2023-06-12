@@ -89,7 +89,10 @@ const Navbar = () => {
             <TbMusicOff className="text-white h-6 w-6" />
           )}
         </motion.button>
-        <Link href="https://github.com/K-Sikora">
+        <Link
+          target="_blank"
+          href="https://github.com/K-Sikora"
+        >
           <motion.div>
             <AiFillGithub className="text-white w-6 h-6" />
           </motion.div>
