@@ -9,15 +9,8 @@ import Lottie from "lottie-react";
 import loading from "../../../public/loading.json";
 import InfoPopup from "@/components/InfoPopup";
 import Navbar from "@/components/Navbar";
-
+import { Skin } from "@/types/SkinType";
 const PlayPage: React.FC = () => {
-  type Skin = {
-    rarity_color: string;
-    icon_url: string;
-    icon_url_large?: string;
-    name: string;
-    price: number;
-  };
   const [infoPopupVisible, setInfoPopupVisible] = useState(false);
   const [bestScore, setBestScore] = useState<number | null>(null);
   const [seed, setSeed] = useState<Skin[]>([]);

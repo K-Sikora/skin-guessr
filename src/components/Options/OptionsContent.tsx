@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
 import { Listbox } from "@headlessui/react";
+import { Money } from "@/types/MoneyType";
 import { BiChevronDown } from "react-icons/bi";
 import { useVolume } from "@/context/context";
 import { Howl } from "howler";
@@ -14,11 +15,7 @@ const OptionsContent = ({
 }) => {
   const { contextVolume, changeVolume, contextMusicVolume, changeMusicVolume } =
     useVolume();
-  type Money = {
-    id: number;
-    amount: number;
-  };
-  const soundOptions = ["Yes", "No"];
+
   const moneyOptions: Money[] = [
     {
       id: 0,
