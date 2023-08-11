@@ -8,7 +8,7 @@ import Link from "next/link";
 import Lottie from "lottie-react";
 import loading from "../../../public/loading.json";
 import InfoPopup from "@/components/InfoPopup";
-import Navbar from "@/components/Navbar";
+import Navbar from "@/components/Navbar/Navbar";
 import { Skin } from "@/types/Skin";
 const PlayPage: React.FC = () => {
   const [infoPopupVisible, setInfoPopupVisible] = useState(false);

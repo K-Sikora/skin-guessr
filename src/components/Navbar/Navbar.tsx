@@ -5,7 +5,7 @@ import { RxSpeakerLoud, RxSpeakerOff } from "react-icons/rx";
 import { TbMusic, TbMusicOff } from "react-icons/tb";
 import { AiFillGithub } from "react-icons/ai";
 import { useVolume } from "@/context/context";
-import { musicArray } from "./Navbar/music";
+import { musicArray } from "./music";
 import Sound, { ReactSoundProps } from "react-sound";
 
 const Navbar = () => {
@@ -59,26 +59,26 @@ const Navbar = () => {
   }
 
   return (
-    <header className="px-4 md:px-8 h-24 flex items-center justify-between bg-gradient-to-b from-gray-950 -mt-24 sticky top-0 left-0 z-50 to-gray-950/0">
+    <header className="sticky top-0 left-0 z-50 flex items-center justify-between h-24 px-4 -mt-24 md:px-8 bg-gradient-to-b from-gray-950 to-gray-950/0">
       <Link href="/">
         <img
           src="./logo.svg"
           className="w-16"
         ></img>
       </Link>
-      <div className="flex items-center justify-center gap-6 py-3 px-6 bg-gradient-to-r backdrop-blur-sm from-gray-800/10 to-gray-900/10 rounded-full">
+      <div className="flex items-center justify-center gap-6 px-6 py-3 rounded-full bg-gradient-to-r backdrop-blur-sm from-gray-800/10 to-gray-900/10">
         <motion.button onClick={handleChangeVolume}>
           {contextVolume > 0 ? (
-            <RxSpeakerLoud className="text-white h-6 w-6" />
+            <RxSpeakerLoud className="w-6 h-6 text-white" />
           ) : (
-            <RxSpeakerOff className="text-white h-6 w-6" />
+            <RxSpeakerOff className="w-6 h-6 text-white" />
           )}
         </motion.button>
         <motion.button onClick={togglePlayStatus}>
           {status === "PLAYING" ? (
-            <TbMusic className="text-white h-6 w-6" />
+            <TbMusic className="w-6 h-6 text-white" />
           ) : (
-            <TbMusicOff className="text-white h-6 w-6" />
+            <TbMusicOff className="w-6 h-6 text-white" />
           )}
         </motion.button>
         <Link
@@ -86,7 +86,7 @@ const Navbar = () => {
           href="https://github.com/K-Sikora"
         >
           <motion.div>
-            <AiFillGithub className="text-white w-6 h-6" />
+            <AiFillGithub className="w-6 h-6 text-white" />
           </motion.div>
         </Link>
       </div>

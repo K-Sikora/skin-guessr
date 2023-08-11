@@ -5,7 +5,7 @@ import { AnimatePresence } from "framer-motion";
 import { Howl } from "howler";
 import Link from "next/link";
 import { useVolume } from "@/context/context";
-import Navbar from "@/components/Navbar";
+import Navbar from "@/components/Navbar/Navbar";
 import CounterStrike from "next/font/local";
 import Options from "@/components/Options/Options";
 const counterStrike = CounterStrike({
