@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
 import { Listbox } from "@headlessui/react";
-import { Money } from "@/types/MoneyType";
+import { Money } from "@/types/Money";
 import { BiChevronDown } from "react-icons/bi";
 import { useVolume } from "@/context/context";
 import { Howl } from "howler";
@@ -155,11 +155,11 @@ const OptionsContent = ({
   });
 
   return (
-    <div className="flex flex-col gap-8 md:gap-12 pb-8">
+    <div className="flex flex-col gap-8 pb-8 md:gap-12">
       {selectedOptionIndex === 0 ? (
         <>
-          <h4 className="text-lg md:text-2xl font-semibold">Game</h4>
-          <ul className="flex text-sm md:text-lg font-medium flex-col gap-5">
+          <h4 className="text-lg font-semibold md:text-2xl">Game</h4>
+          <ul className="flex flex-col gap-5 text-sm font-medium md:text-lg">
             <li
               onMouseEnter={() => {
                 hoverSound.play();
@@ -172,14 +172,14 @@ const OptionsContent = ({
                   value={selectedMoneyOption}
                   onChange={setSelectedMoneyOption}
                 >
-                  <Listbox.Button className="md:text-lg flex items-center justify-end rounded-lg  h-9 outline-none px-2">
+                  <Listbox.Button className="flex items-center justify-end px-2 rounded-lg outline-none md:text-lg h-9">
                     {selectedMoneyOption.amount}
                     <BiChevronDown className="text-xl" />
                   </Listbox.Button>
-                  <Listbox.Options className="text-base font-medium flex bg-gradient-to-r from-gray-950 to-gray-900 rounded-xl items-start right-0  flex-col absolute top-9 z-40">
+                  <Listbox.Options className="absolute right-0 z-40 flex flex-col items-start text-base font-medium bg-gradient-to-r from-gray-950 to-gray-900 rounded-xl top-9">
                     {moneyOptions.map((option, index) => (
                       <Listbox.Option
-                        className="py-3 hover:bg-gray-800 w-full first:rounded-t-xl last:rounded-b-xl px-4 z-40 cursor-pointer"
+                        className="z-40 w-full px-4 py-3 cursor-pointer hover:bg-gray-800 first:rounded-t-xl last:rounded-b-xl"
                         key={index}
                         value={option}
                       >
@@ -210,14 +210,14 @@ const OptionsContent = ({
                   value={selectedHintsOption}
                   onChange={setSelectedHintsOption}
                 >
-                  <Listbox.Button className="md:text-lg flex items-center justify-end rounded-lg  h-9 outline-none px-2">
+                  <Listbox.Button className="flex items-center justify-end px-2 rounded-lg outline-none md:text-lg h-9">
                     {selectedHintsOption}
                     <BiChevronDown className="text-xl" />
                   </Listbox.Button>
-                  <Listbox.Options className="text-base font-medium flex bg-gradient-to-r from-gray-950 to-gray-900 rounded-xl items-start right-0  flex-col absolute top-9 z-40">
+                  <Listbox.Options className="absolute right-0 z-40 flex flex-col items-start text-base font-medium bg-gradient-to-r from-gray-950 to-gray-900 rounded-xl top-9">
                     {hintsOptions.map((option, index) => (
                       <Listbox.Option
-                        className="py-3 hover:bg-gray-800 w-full first:rounded-t-xl last:rounded-b-xl px-4 z-40 cursor-pointer"
+                        className="z-40 w-full px-4 py-3 cursor-pointer hover:bg-gray-800 first:rounded-t-xl last:rounded-b-xl"
                         key={index}
                         value={option}
                       >
@@ -248,14 +248,14 @@ const OptionsContent = ({
                   value={selectedPriceGuess}
                   onChange={setSelectedPriceGuess}
                 >
-                  <Listbox.Button className="md:text-lg flex items-center justify-end rounded-lg  h-9 outline-none px-2">
+                  <Listbox.Button className="flex items-center justify-end px-2 rounded-lg outline-none md:text-lg h-9">
                     {selectedPriceGuess}
                     <BiChevronDown className="text-xl" />
                   </Listbox.Button>
-                  <Listbox.Options className="text-base font-medium flex bg-gradient-to-r from-gray-950 to-gray-900 rounded-xl items-start right-0  flex-col absolute top-9 z-40">
+                  <Listbox.Options className="absolute right-0 z-40 flex flex-col items-start text-base font-medium bg-gradient-to-r from-gray-950 to-gray-900 rounded-xl top-9">
                     {priceGuessOptions.map((option, index) => (
                       <Listbox.Option
-                        className="py-3 hover:bg-gray-800 w-full first:rounded-t-xl last:rounded-b-xl px-4 z-40 cursor-pointer"
+                        className="z-40 w-full px-4 py-3 cursor-pointer hover:bg-gray-800 first:rounded-t-xl last:rounded-b-xl"
                         key={index}
                         value={option}
                       >
@@ -286,14 +286,14 @@ const OptionsContent = ({
                   value={selectedConditionGuess}
                   onChange={setSelectedConditionGuess}
                 >
-                  <Listbox.Button className="md:text-lg flex items-center justify-end rounded-lg  h-9 outline-none px-2">
+                  <Listbox.Button className="flex items-center justify-end px-2 rounded-lg outline-none md:text-lg h-9">
                     {selectedConditionGuess}
                     <BiChevronDown className="text-xl" />
                   </Listbox.Button>
-                  <Listbox.Options className="text-base font-medium flex bg-gradient-to-r from-gray-950 to-gray-900 rounded-xl items-start right-0  flex-col absolute top-9 z-40">
+                  <Listbox.Options className="absolute right-0 z-40 flex flex-col items-start text-base font-medium bg-gradient-to-r from-gray-950 to-gray-900 rounded-xl top-9">
                     {conditionGuessOptions.map((option, index) => (
                       <Listbox.Option
-                        className="py-3 hover:bg-gray-800 w-full first:rounded-t-xl last:rounded-b-xl px-4 z-40 cursor-pointer"
+                        className="z-40 w-full px-4 py-3 cursor-pointer hover:bg-gray-800 first:rounded-t-xl last:rounded-b-xl"
                         key={index}
                         value={option}
                       >
@@ -316,8 +316,8 @@ const OptionsContent = ({
         </>
       ) : selectedOptionIndex === 1 ? (
         <>
-          <h4 className="text-lg md:text-2xl font-semibold">Sound</h4>
-          <ul className="flex text-sm md:text-lg font-medium flex-col gap-5">
+          <h4 className="text-lg font-semibold md:text-2xl">Sound</h4>
+          <ul className="flex flex-col gap-5 text-sm font-medium md:text-lg">
             <li
               onMouseEnter={() => {
                 hoverSound.play();
@@ -325,7 +325,7 @@ const OptionsContent = ({
               className="border-b-[1px] last:border-none py-2 border-gray-300/30 flex w-full justify-between items-center"
             >
               <p>Effects</p>
-              <div className="w-1/2 flex items-center gap-6">
+              <div className="flex items-center w-1/2 gap-6">
                 <Slider
                   min={0}
                   trackStyle={{ backgroundColor: "white" }}
@@ -356,7 +356,7 @@ const OptionsContent = ({
               className="border-b-[1px] last:border-none py-2 border-gray-300/30 flex w-full justify-between items-center"
             >
               <p>Music</p>
-              <div className="w-1/2 flex items-center gap-6">
+              <div className="flex items-center w-1/2 gap-6">
                 <Slider
                   min={0}
                   trackStyle={{ backgroundColor: "white" }}
@@ -384,8 +384,8 @@ const OptionsContent = ({
         </>
       ) : (
         <>
-          <h4 className="text-lg md:text-2xl font-semibold">Video</h4>
-          <ul className="flex text-sm md:text-lg font-medium flex-col gap-5">
+          <h4 className="text-lg font-semibold md:text-2xl">Video</h4>
+          <ul className="flex flex-col gap-5 text-sm font-medium md:text-lg">
             <li
               onMouseEnter={() => {
                 hoverSound.play();
@@ -398,14 +398,14 @@ const OptionsContent = ({
                   value={backgroundVideoOption}
                   onChange={setBackgroundVideoOption}
                 >
-                  <Listbox.Button className="md:text-lg flex items-center justify-end rounded-lg  h-9 outline-none px-2">
+                  <Listbox.Button className="flex items-center justify-end px-2 rounded-lg outline-none md:text-lg h-9">
                     {backgroundVideoOption}
                     <BiChevronDown className="text-xl" />
                   </Listbox.Button>
-                  <Listbox.Options className="text-base font-medium flex bg-gradient-to-r from-gray-950 to-gray-900 rounded-xl items-start right-0  flex-col absolute top-9 z-40">
+                  <Listbox.Options className="absolute right-0 z-40 flex flex-col items-start text-base font-medium bg-gradient-to-r from-gray-950 to-gray-900 rounded-xl top-9">
                     {backgroundVideo.map((option, index) => (
                       <Listbox.Option
-                        className="py-3 hover:bg-gray-800 w-full first:rounded-t-xl last:rounded-b-xl px-4 z-40 cursor-pointer"
+                        className="z-40 w-full px-4 py-3 cursor-pointer hover:bg-gray-800 first:rounded-t-xl last:rounded-b-xl"
                         key={index}
                         value={option}
                       >

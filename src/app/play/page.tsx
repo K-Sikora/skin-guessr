@@ -9,7 +9,7 @@ import Lottie from "lottie-react";
 import loading from "../../../public/loading.json";
 import InfoPopup from "@/components/InfoPopup";
 import Navbar from "@/components/Navbar";
-import { Skin } from "@/types/SkinType";
+import { Skin } from "@/types/Skin";
 const PlayPage: React.FC = () => {
   const [infoPopupVisible, setInfoPopupVisible] = useState(false);
   const [bestScore, setBestScore] = useState<number | null>(null);

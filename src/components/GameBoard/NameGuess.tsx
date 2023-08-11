@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { AiFillQuestionCircle } from "react-icons/ai";
 import { Howl } from "howler";
-import { Skin } from "@/types/SkinType";
+import { Skin } from "@/types/Skin";
 import { motion, AnimatePresence } from "framer-motion";
 import { BsCheck } from "react-icons/bs";
 import { RxCrosshair2 } from "react-icons/rx";

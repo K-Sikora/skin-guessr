@@ -5,9 +5,14 @@ import { AnimatePresence } from "framer-motion";
 import { Howl } from "howler";
 import Link from "next/link";
 import { useVolume } from "@/context/context";
-
 import Navbar from "@/components/Navbar";
+import CounterStrike from "next/font/local";
 import Options from "@/components/Options/Options";
+const counterStrike = CounterStrike({
+  src: "./fonts/Counter-StrikeRegular.woff2",
+  weight: "500",
+  style: "normal",
+});
 const Homepage: React.FC = () => {
   const { contextVolume } = useVolume();
   const [optionsVisible, setOptionsVisible] = useState(false);
@@ -35,21 +40,23 @@ const Homepage: React.FC = () => {
         {isBackgroundEnabled ? (
           <BackgroundPlayer />
         ) : (
-          <div className="play absolute top-0 left-0 w-full h-full">
-            <div className="absolute bg-black/30 w-full h-full top-0 left-0"></div>
+          <div className="absolute top-0 left-0 w-full h-full play">
+            <div className="absolute top-0 left-0 w-full h-full bg-black/30"></div>
           </div>
         )}
         {!optionsVisible && (
-          <div className="items-start menu flex px-4 md:px-8 flex-col gap-12 uppercase text-4xl md:text-5xl w-full mx-auto z-20">
+          <div
+            className={`z-20 flex flex-col items-start w-full gap-12 px-4 mx-auto text-4xl uppercase md:px-8 md:text-5xl ${counterStrike.className}`}
+          >
             <Link
               onClick={() => {
                 clickSound2.play();
               }}
               href="/play"
             >
-              <h2 className="text-white relative group duration-200">
+              <h2 className="relative text-white duration-200 group">
                 Start game
-                <div className="absolute bottom-0 left-0 w-0 group-hover:w-full duration-300 h-1 bg-white"></div>
+                <div className="absolute bottom-0 left-0 w-0 h-1 duration-300 bg-white group-hover:w-full"></div>
               </h2>
             </Link>
             <h2
@@ -58,10 +65,10 @@ const Homepage: React.FC = () => {
                 setOpenCredits(false);
                 clickSound2.play();
               }}
-              className="text-white relative group duration-200 cursor-pointer"
+              className="relative text-white duration-200 cursor-pointer group"
             >
               Options
-              <div className="absolute bottom-0 left-0 w-0 group-hover:w-full duration-300 h-1 bg-white"></div>
+              <div className="absolute bottom-0 left-0 w-0 h-1 duration-300 bg-white group-hover:w-full"></div>
             </h2>
             <h2
               onClick={() => {
@@ -69,10 +76,10 @@ const Homepage: React.FC = () => {
                 setOpenCredits(true);
                 clickSound2.play();
               }}
-              className="text-white relative group duration-200 cursor-pointer"
+              className="relative text-white duration-200 cursor-pointer group"
             >
               Credits
-              <div className="absolute bottom-0 left-0 w-0 group-hover:w-full duration-300 h-1 bg-white"></div>
+              <div className="absolute bottom-0 left-0 w-0 h-1 duration-300 bg-white group-hover:w-full"></div>
             </h2>
           </div>
         )}

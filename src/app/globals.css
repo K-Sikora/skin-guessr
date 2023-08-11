@@ -2,59 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
-@font-face {
-  font-family: "Counter-Strike";
-  src: url("../../public/fonts/Counter-StrikeRegular.woff2") format("woff2"),
-    url("../../public/fonts/Counter-StrikeRegular.woff") format("woff");
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "DIN";
-  src: url("../../public/fonts/DIN-Black.woff2") format("woff2"),
-    url("../../public/fonts/DIN-Black.woff") format("woff");
-  font-weight: 900;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "DIN";
-  src: url("../../public/fonts/DINBold.woff2") format("woff2"),
-    url("../../public/fonts/DINBold.woff") format("woff");
-  font-weight: bold;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "DIN";
-  src: url("../../public/fonts/DIN.woff2") format("woff2"),
-    url("../../public/fonts/DIN.woff") format("woff");
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "DIN";
-  src: url("../../public/fonts/DIN-Medium.woff2") format("woff2"),
-    url("../../public/fonts/DIN-Medium.woff") format("woff");
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-}
-
-.menu {
-  font-family: Counter-Strike;
-}
 .play {
   background-image: url("../../public/bg.jpg");
   background-position: center center;
   background-repeat: no-repeat;
-}
-body {
-  font-family: DIN;
 }

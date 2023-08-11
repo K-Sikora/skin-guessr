@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { AiFillQuestionCircle } from "react-icons/ai";
 import { BsCheck } from "react-icons/bs";
 import { RxCrosshair2 } from "react-icons/rx";
-import { Skin } from "@/types/SkinType";
+import { Skin } from "@/types/Skin";
 import { MdClose } from "react-icons/md";
 import { Howl } from "howler";
 import { useVolume } from "@/context/context";

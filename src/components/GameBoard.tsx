@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import BottomPanel from "./GameBoard/BottomPanel";
-import { Skin } from "@/types/SkinType";
+import { Skin } from "@/types/Skin";
 import SkinImage from "./GameBoard/SkinImage";
 import NameGuess from "./GameBoard/NameGuess";
 import ConditionGuess from "./GameBoard/ConditionGuess";

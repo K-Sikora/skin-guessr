@@ -1,6 +1,6 @@
 import React from "react";
 import Image from "next/image";
-import { Skin } from "@/types/SkinType";
+import { Skin } from "@/types/Skin";
 const SkinImage = ({ item }: { item: Skin }) => {
   return (
     <div className="flex h-[40%] justify-center">

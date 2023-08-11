@@ -8,7 +8,7 @@ import { Howl } from "howler";
 import { BiChevronDown } from "react-icons/bi";
 import { MdClose } from "react-icons/md";
 import { Listbox } from "@headlessui/react";
-import { Skin } from "@/types/SkinType";
+import { Skin } from "@/types/Skin";
 import { useVolume } from "@/context/context";
 const conditions = [
   "Factory New",
